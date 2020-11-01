@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=multirice
-Comment=an easy way to organize your rice setups
-Exec=multirice
-TryExec=multirice
-Type=Application
-X-LightDM-DesktopName=multirice
-DesktopNames=multirice
-Keywords=tiling;wm;windowmanager;window;manager;
