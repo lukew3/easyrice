@@ -1,0 +1,11 @@
+[requirements]
+i3
+polybar
+spicetify
+
+[i3_config]
+
+[polybar_config]
+
+Actually the configs of each individual application should be stored in a
+seperate file of a sharable folder
