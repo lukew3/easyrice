@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='riceman',
-    version='1.0.2',
+    version='0.0.1',
     description='A rice setup manager',
     url='https://github.com/lukew3/riceman',
     author='Luke Weiler',
@@ -10,11 +10,12 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
+        'Click',
     ],
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'riceman=riceman.main:main',
+            'riceman=riceman.main:cli',
         ],
     },
 )
