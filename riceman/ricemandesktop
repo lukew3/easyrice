@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=riceman
 Comment=An easy way to organize your rice setups
-Exec=riceman
-TryExec=riceman
+Exec=/home/luke/.local/lib/python3.8/site-packages/riceman/launch.sh
+TryExec=/home/luke/.local/lib/python3.8/site-packages/riceman/launch.sh
 Type=Application
 X-LightDM-DesktopName=riceman
 DesktopNames=riceman

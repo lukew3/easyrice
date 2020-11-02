@@ -1,0 +1,3 @@
+include riceman/ricemandesktop
+include riceman/config
+include riceman/launch.sh
