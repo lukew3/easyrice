@@ -7,23 +7,25 @@ import sys
 
 
 @click.group(invoke_without_command=True)
-# @click.option('--s') # select the setup that you want to run without changing the config
-def cli():
+@click.option('-s', '--setup-name', help='Include the name of the setup you want to use')
+def cli(setup_name):
     """ Runs the setup selected in config or the command passed """
-
+    print(setup_name)
     install_config()
-
-    os.system(get_wm_config_path())
-    # install_config()
+    os.system(run_wm_custom_config(setup_name))
 
 
-def get_wm_config_path():
+def run_wm_custom_config(setup_name):
     """ Gets the path of the window manager config """
     riceman_path = os.path.expanduser("~") + "/.config/riceman"
     config = configparser.ConfigParser()
-
     config.read(riceman_path + "/config")
-    setup = config['main']['current_setup']
+
+    if setup_name == None:
+        setup = config['main']['current_setup']
+    else:
+        setup = setup_name
+
     if os.path.isfile(riceman_path + "/setups/" + setup + "/config"):
         config.read(riceman_path + "/setups/" + setup + "/config")
         wm = config['main']['window_manager']
@@ -36,7 +38,7 @@ def get_wm_config_path():
 
 
 def install_config():
-    # Make base directory and configs for install
+    """ Make base directory and configs for install """
     user_config_dir = os.path.expanduser("~") + "/.config/riceman"
     user_config = user_config_dir + "/config"
     user_setups_dir = user_config_dir + "/setups"
@@ -48,42 +50,74 @@ def install_config():
         os.makedirs(user_setups_dir, exist_ok=True)
         shutil.copyfile("riceman/config", user_config)
 
-    # Write xsessions desktop file
-    environment_file = "/usr/share/xsessions/riceman.desktop"
-# shutil.copyfile("ricemandesktop", environment_file)
-
 
 @cli.command()
-# @click.option('--name', required=False, help='Include the name of your setup')
 def copy_current():
-    """ Copies your current setup made outside of riceman and adds it to setups """
-    # This could be used to copy the users current setup
-    # Maybe grab the config in i3 or whatever is specified and then
-    # grab dependencies from that
-    # Could be called by riceman newsetup
-    # Could also pass setupname through this as 'riceman newsetup custom'
+    """ Copies your current setup made outside of riceman """
     setupName = input("Give your setup a name: ")
     wm = input("Window manager: ")
     setup_base(wm, setupName)
     print("Base directory created")
 
     config_dir = os.path.expanduser("~") + "/.config"
-    # The next line is really messy, maybe I could make it neater by assigning strings
-    # to variables and then calling them in shutil copyfile
+    this_setup_dir = config_dir + "/riceman/setups/" + setupName
     head = config_dir + "/" + wm + "/config"
     base = config_dir + "/riceman/setups/" + setupName + "/app_configs/" + wm + "/config"
     shutil.copyfile(head, base)
-    print("Window manger config created")
+    print("Window manager config created")
 
-    # Detect apps like polybar and others
+    # print("What requirements are necessary? Seperate names of packages with a space. ")
+    # arguments = input("Requirements: ")
 
     # Detect and move wallpapers
+    f = open(base, "r")
+    wallpaper_head = ''
+    wallpaper_name = ''
+    for line in f:
+        if 'feh' in line:
+            wallpaper_head = line.rsplit(None, 1)[-1]
+            wallpaper_name = wallpaper_head.rsplit('/', 1)[1]
+    wallpaper_base = config_dir + "/riceman/setups/" + setupName + "/assets/" + wallpaper_name
+    if wallpaper_head[0] == '~':
+        wallpaper_head = os.path.expanduser("~") + wallpaper_head[1:]
+    shutil.copyfile(wallpaper_head, wallpaper_base)
+    print("Wallpaper copied")
+    # Fix reference to wallpaper in window manager
+
+    # it's not a good idea to search for each package individually but polybar
+    # is so common that it works for now.
+    # check for polybar
+    polybar_config_head = config_dir + "/polybar"
+    if os.path.exists(polybar_config_head):
+        polybar_config_base = this_setup_dir + "/app_configs/polybar"
+        shutil.copytree(polybar_config_head, polybar_config_base)
+        print("Polybar config copied")
+    # fix polybar references in window manager config
+
+    # Set riceman to run this setup on startup
+    riceman_path = os.path.expanduser("~") + "/.config/riceman"
+    config = configparser.ConfigParser()
+    config.read(riceman_path + "/config")
+    config['main']['current_setup'] = setupName
+    with open(riceman_path + '/config', 'w') as configfile:
+        config.write(configfile)
+
+    # It would help if you could run your wm like you usually would and riceman
+    # would detect which apps started up before you started using the environment
+    # Then those apps would be added to requirements.txt and their configs added to app_config folder
+
+
+@cli.command()
+def new_setup():
+    """ Creates a new setup with empty directories """
+    setupName = input("Give your setup a name: ")
+    wm = input("Window manager: ")
+    setup_base(wm, setupName)
 
 
 def setup_base(wm, setupName):
     parent_dir = os.path.expanduser("~") + "/.config/riceman/setups"
     setup_dir = parent_dir + "/" + setupName
-    os.makedirs(setup_dir)
     os.makedirs(setup_dir + "/assets")
     os.makedirs(setup_dir + "/app_configs")
     wm_dir = setup_dir + "/app_configs/" + wm
@@ -95,14 +129,24 @@ def setup_base(wm, setupName):
     f.close()
 
 
-@ cli.command('rename_setup', short_help='rename a setup')
+@ cli.command()
 # could pass two arguments to change name1 to name2
-def renameSetup():
+def rename_setup():
+    """ Rename an existing setup """
     # Rename a setup
     # This will search through the configs and replace the /<setupname>/ part of the location string of each mentionof the
     # <setupname> folder
     currentName = input("Current name: ")
     newName = input("New name: ")
+
+
+@cli.command()
+def delete_setup():
+    """ Delete an existing setup """
+    # Could print a list of setups numbered and then ask for a number or numbers to delete
+    name = input("Which setup do you want to delete: ")
+    setup_dir = os.path.expanduser("~") + "/.config/riceman/setups/" + name
+    os.system('rm -r ' + setup_dir)
 
 
 if __name__ == "__main__":
