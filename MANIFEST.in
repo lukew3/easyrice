@@ -1,3 +1,1 @@
-
-include riceman/config
-include ricemandesktop
+include easyrice/config

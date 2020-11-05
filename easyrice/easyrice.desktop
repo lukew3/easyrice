@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=riceman
+Name=easyrice
 Comment=An easy way to organize your rice setups
-Exec=riceman
-TryExec=riceman
+Exec=easyrice
+TryExec=easyrice
 Type=Application
-X-LightDM-DesktopName=riceman
-DesktopNames=riceman
+X-LightDM-DesktopName=easyrice
+DesktopNames=easyrice
 Keywords=tiling;wm;windowmanager;window;manager;
