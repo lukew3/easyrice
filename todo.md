@@ -7,3 +7,4 @@
 [-] CLONE: check for double folder when pulled
 [-] Figure out a way to record and install dependencies for rice setups
 [-] Decide if setups should have README's automatically generated when they upload to github
+[-] UPLOAD: If github repo already exists, don't attempt to create a new repo. Instead, just add and commit current changes

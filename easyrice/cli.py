@@ -95,12 +95,21 @@ def upload(setup):
     username = input("Github username: ")
     mod_upload.main(username, setup)
 
-"""
+
 @cli.command()
 def list():
-    Lists all setups in easyrice config
-    pass
-"""
+    """ Lists all setups in easyrice config """
+    # Maybe you could include the window manager used in each setup
+        # Even better you could add an option that allows the user to see all installed packages or config folder names
+    setups_dir = os.path.expanduser("~") + "/.config/easyrice/setups/"
+    setups_list = os.listdir(setups_dir)
+    active = get_current_setup()
+    for setup in setups_list:
+        if setup == active:
+            print(setup + " (active)")
+        else:
+            print(setup)
+
 
 def install_config():
     """ Make base directory and configs for install """

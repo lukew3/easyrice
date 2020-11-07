@@ -12,5 +12,5 @@ install:
 	python3 -m pip install .
 
 uninstall:
-	rm -f "$(DESTDIR)$(XSESSIONS)"/bspwm.desktop
+	rm -f "$(DESTDIR)$(XSESSIONS)"/easyrice.desktop
 	python3 -m pip uninstall easyrice
