@@ -6,7 +6,8 @@ install:
 	# Add .desktop file
 	mkdir -p "$(DESTDIR)$(XSESSIONS)"
 	cp -p easyrice/easyrice.desktop "$(DESTDIR)$(XSESSIONS)"
-
+	# Make config directory
+	
 	# Install package
 	python3 -m pip install .
 

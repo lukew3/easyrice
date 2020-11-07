@@ -15,7 +15,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'easyrice=easyrice.main:cli',
+            'easyrice=easyrice.cli:cli',
         ],
     },
 )

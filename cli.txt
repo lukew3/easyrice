@@ -1,0 +1,25 @@
+run
+  runs the startup process as can be found in the base level config file
+
+clone
+  help: Clones a github repo into easyrice. Accepts a github or gitlab repo. I think they work the same way.
+
+new
+  creates an empty rice setup
+  -n specify the name of the new setup, maybe have name as an argument.
+    It might be good if name was randomly generated so that you could have lots of setups and not worry about having the same name.
+  -c copies current setup
+
+rename <original> <new>
+  Rename a setup from original to new
+    Could show user list of their setups and ask which they want to rename and then ask for new name
+
+remove <name>
+  Removes a setup
+  Should tell you if that was your default and tell you to change the setup run on boot
+
+
+# Not implemented yet
+add_to_startup
+  Adds a designated setup to list of window managers at startup
+    Adds a desktop file with easyrice run -s <setup> to /usr/share/xsessions
