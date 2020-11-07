@@ -9,9 +9,13 @@ from tempfile import mkstemp
 from .commands import mod_new, mod_run, mod_upload, mod_utils
 from .commands.mod_utils import set_current_setup, get_current_setup, replace
 
-@click.group()
-def cli():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def cli(ctx):
     install_config()
+    setup_name = mod_utils.get_current_setup()
+    if ctx.invoked_subcommand is None:
+        mod_run.main(setup_name)
 
 @cli.command()
 @click.option('--setup', '-s')
@@ -94,7 +98,7 @@ def upload(setup):
 """
 @cli.command()
 def list():
-    """ Lists all setups in easyrice config """
+    Lists all setups in easyrice config
     pass
 """
 
