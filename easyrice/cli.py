@@ -6,7 +6,7 @@ import click
 import sys
 from tempfile import mkstemp
 
-from .commands import mod_new, mod_run, mod_upload, mod_utils
+from .commands import mod_new, mod_run, mod_upload, mod_utils, mod_req
 from .commands.mod_utils import set_current_setup, get_current_setup, replace
 
 @click.group(invoke_without_command=True)
@@ -17,13 +17,15 @@ def cli(ctx):
     if ctx.invoked_subcommand is None:
         mod_run.main(setup_name)
 
+"""
 @cli.command()
 @click.option('--setup', '-s')
 def run(setup):
-    """ Runs either the setup designated in the main config or -s """
+    # Runs either the setup designated in the main config or -s
     if setup == None:
         setup = mod_utils.get_current_setup()
     mod_run.main(setup)
+"""
 
 @cli.command()
 @click.option('--copy', '-c', is_flag=True)
@@ -41,6 +43,7 @@ def new(copy):
     else:
         mod_new.make_base(wm, setupName)
 
+
 @cli.command()
 @click.argument('repo')
 def clone(repo):
@@ -53,6 +56,7 @@ def clone(repo):
     # Might want to add a way to check if the git repo has an extra folder in it.
     # If the user uploaded the whole folder instead of the insides of the folder, this script wont work
     # Or you could make a way to automatically upload a setup to github
+
 
 @cli.command()
 @click.option('--from', '-f', 'from_', required=False)
@@ -88,6 +92,8 @@ def remove(setup):
     os.system('rm -rf ' + setup_dir)
     # Could add a message that tells if the setup doesn't exist and can't be removed
 
+#This method of upload was deprecated by github.
+# This can still work if you add tokens
 @cli.command()
 @click.argument('setup')
 def upload(setup):
@@ -110,6 +116,10 @@ def list():
         else:
             print(setup)
 
+@cli.command()
+def req():
+    """ Install requirements for current setup """
+    mod_req.check_requirements()
 
 def install_config():
     """ Make base directory and configs for install """
@@ -122,6 +132,3 @@ def install_config():
         os.makedirs(user_config_dir, exist_ok=True)
         os.makedirs(user_setups_dir, exist_ok=True)
         shutil.copyfile("easyrice/config", user_config)
-
-if __name__ == "__main__":
-    main()

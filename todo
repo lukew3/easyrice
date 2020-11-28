@@ -1,0 +1,31 @@
+Clean up comments, put them in todo list
+Fix inconsistencies
+Add ability to add custom .desktop entries to desktop environment manager
+	You can have a seperate entry for each setup you want to use on a regular basis
+
+Fix bad documentation
+CLONE: check for double folder when pulled
+Figure out a way to record and install dependencies for rice setups
+Decide if setups should have README's automatically generated when they upload to github
+UPLOAD: If github repo already exists, don't attempt to create a new repo. Instead, just add and commit current changes
+INSTALL: Users should be able to use the install command to install a dependency on the users pc, then move the .config into the setups dotfile location
+
+A new direction to take this would be to put all of the users dotfiles in a backup setup, then overwrite users original dotfiles with other user's files.
+	This would fix the problem of knowing which .files to transfer, but not the problem of determining which dependencies are necessary
+		It would probably be best if requirements are always manually added, that way requirements that are not necessary are not added.
+			This would mean that automatically adding all .files would be bad, and only .files for required packages should be transfered
+
+Requirements.txt
+	Check function should check to make sure that all packages are recognized
+		If a package is not recognized, the user should be given an alternate predicted title for the package, if that name is correct, the package name should be corrected.
+	There might be a possibility that you could suggest requirements to add based on installed packages and you would just have to confirm that you want to save those requirements
+		Show a numbered list of requirements that are common and are installed on your computer. Then type a list with numbers seperated by a space to save to requirements
+
+It is probably important to be able to test your setup without regarding your previously installed packages.
+	This can be achieved by creating a seperate user profile with no installed packages and then deleting that profile after testing
+
+Use -r to pass a requirements.txt file to a setup
+	The setup will then copy the contents of the file into the setup requirements
+
+Might need a dependency requirement file that is only edited by the computer
+	Holds the names of the packages that need to be installed in order for requirements to be installed

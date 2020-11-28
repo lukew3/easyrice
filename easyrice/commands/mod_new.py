@@ -8,6 +8,7 @@ def make_base(wm, setupName):
     setup_dir = parent_dir + "/" + setupName
     os.makedirs(setup_dir + "/assets")
     os.makedirs(setup_dir + "/app_configs")
+    open(setup_dir + "/requirements.txt", 'a').close()
     wm_dir = setup_dir + "/app_configs/" + wm
     if wm == 'bspwm':
         os.makedirs(setup_dir + "/app_configs/sxhkd")
