@@ -18,7 +18,7 @@ easyrice
 ├── config
 └── setups
     └── first
-        ├── app_configs
+        ├── dotfiles
         │   └── i3
         │       └── config
         ├── assets

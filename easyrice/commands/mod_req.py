@@ -31,9 +31,9 @@ def install_requirements(requirements):
 def copy_configs(requirements, setup_dir):
     for req in requirements:
         old_dir = os.path.expanduser("~") + ".config/" + req
-        # If a config file exists, copy it to the setup's app_configs folder
+        # If a config file exists, copy it to the setup's dotfiles folder
         if os.path.isdir(old_dir):
-            new_dir = setup_dir + "/app_configs/" + req
+            new_dir = setup_dir + "/dotfiles/" + req
             shutil.copyfile(old_dir, new_dir)
 
 def get_install_command(req, distro_name):

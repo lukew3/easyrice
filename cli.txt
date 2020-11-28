@@ -23,3 +23,20 @@ remove <name>
 add_to_startup
   Adds a designated setup to list of window managers at startup
     Adds a desktop file with easyrice run -s <setup> to /usr/share/xsessions
+
+-n
+--new
+Creates a new setup
+  optional argument of setup_name
+
+-r
+--rename
+Renames a setup
+
+-x
+--remove
+Removes a setup
+
+-l
+--list
+Lists all setups

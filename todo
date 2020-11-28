@@ -29,3 +29,9 @@ Use -r to pass a requirements.txt file to a setup
 
 Might need a dependency requirement file that is only edited by the computer
 	Holds the names of the packages that need to be installed in order for requirements to be installed
+
+REMOVE: If the current active setup is about to be removed, inform the user and ask if they want to continue(y/n)
+	Tell them how to set new active setup
+
+On startup, config files should be replaced with setup config files.
+	Config files should be replaced on close, but this is easier said than done

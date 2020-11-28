@@ -7,11 +7,11 @@ def make_base(wm, setupName):
     parent_dir = os.path.expanduser("~") + "/.config/easyrice/setups"
     setup_dir = parent_dir + "/" + setupName
     os.makedirs(setup_dir + "/assets")
-    os.makedirs(setup_dir + "/app_configs")
+    os.makedirs(setup_dir + "/dotfiles")
     open(setup_dir + "/requirements.txt", 'a').close()
-    wm_dir = setup_dir + "/app_configs/" + wm
+    wm_dir = setup_dir + "/dotfiles/" + wm
     if wm == 'bspwm':
-        os.makedirs(setup_dir + "/app_configs/sxhkd")
+        os.makedirs(setup_dir + "/dotfiles/sxhkd")
     os.makedirs(wm_dir)
 
     # Write setup config file including wm name and runwm command
@@ -22,13 +22,14 @@ def make_base(wm, setupName):
         wm_config_filename = 'config'
     run_wm_command = wm + " -c " + \
         os.path.expanduser("~") + "/.config/easyrice/setups/" + \
-        setupName + "/app_configs/" + wm + "/" + wm_config_filename
+        setupName + "/dotfiles/" + wm + "/" + wm_config_filename
     config = configparser.ConfigParser()
     config['DEFAULT'] = {'window_manager': wm,
                          'run_wm_command': run_wm_command}
     with open(setup_dir + "/config", 'w') as configfile:
         config.write(configfile)
     print("Base directory created")
+    set_current_setup(setupName)
 
 
 def copy(wm, setupName):
@@ -41,11 +42,11 @@ def copy(wm, setupName):
     if wm == 'bspwm':
         # add sxhkd dependency
         sxhkdrc_head = config_dir + "/sxhkd/sxhkdrc"
-        sxhkdrc_base = this_setup_dir + "/app_configs/sxhkd/sxhkdrc"
+        sxhkdrc_base = this_setup_dir + "/dotfiles/sxhkd/sxhkdrc"
         shutil.copyfile(sxhkdrc_head, sxhkdrc_base)
         # add bspwm config titled bspwmrc
         bspwmrc_head = config_dir + "/bspwm/bspwmrc"
-        bspwmrc_base = this_setup_dir + "/app_configs/bspwm/bspwmrc"
+        bspwmrc_base = this_setup_dir + "/dotfiles/bspwm/bspwmrc"
         shutil.copyfile(bspwmrc_head, bspwmrc_base)
         # add sxhkd command to bspwmrc
         sxhkd_command = 'sxhkd -c ' + sxhkdrc_base + " &"
@@ -53,7 +54,7 @@ def copy(wm, setupName):
         base = bspwmrc_base
     else:
         head = config_dir + "/" + wm + "/config"
-        base = this_setup_dir + "/app_configs/" + wm + "/config"
+        base = this_setup_dir + "/dotfiles/" + wm + "/config"
         shutil.copyfile(head, base)
 
     print("Window manager config created")
@@ -85,12 +86,12 @@ def copy(wm, setupName):
     # check for polybar
     polybar_config_head = config_dir + "/polybar"
     if os.path.exists(polybar_config_head):
-        polybar_config_base = this_setup_dir + "/app_configs/polybar"
+        polybar_config_base = this_setup_dir + "/dotfiles/polybar"
         shutil.copytree(polybar_config_head, polybar_config_base)
         print("Polybar config copied")
     # fix polybar references in window manager config
     original_polybar_call = ".config/polybar/launch.sh"
-    new_polybar_call = ".config/easyrice/setups/" + setupName + "/app_configs/polybar/launch.sh"
+    new_polybar_call = ".config/easyrice/setups/" + setupName + "/dotfiles/polybar/launch.sh"
     replace(base, original_polybar_call, new_polybar_call)
 
     # Set easyrice to run this setup on startup
@@ -98,3 +99,9 @@ def copy(wm, setupName):
     # It would help if you could run your wm like you usually would and easyrice
     # would detect which apps started up before you started using the environment
     # Then those apps would be added to requirements.txt and their configs added to app_config folder
+
+def replace_dotfiles():
+    pass
+
+def backup_dotfiles():
+    pass

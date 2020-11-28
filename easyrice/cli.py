@@ -17,16 +17,6 @@ def cli(ctx):
     if ctx.invoked_subcommand is None:
         mod_run.main(setup_name)
 
-"""
-@cli.command()
-@click.option('--setup', '-s')
-def run(setup):
-    # Runs either the setup designated in the main config or -s
-    if setup == None:
-        setup = mod_utils.get_current_setup()
-    mod_run.main(setup)
-"""
-
 @cli.command()
 @click.option('--copy', '-c', is_flag=True)
 def new(copy):
@@ -77,8 +67,8 @@ def rename(from_, to):
     # This is incomplete because name needs to be changed in each config file as well
     # probably could do some recursive search through files for \setups\<current_name>\
     setup_config = new_folder + "/config"
-    pattern = '/setups/' + current_name + '/app_configs'
-    subst = '/setups/' + new_name + '/app_configs'
+    pattern = '/setups/' + current_name + '/dotfiles'
+    subst = '/setups/' + new_name + '/dotfiles'
     replace(setup_config, pattern, subst)
     print("Setup \'" + current_name + "\' renamed to \'" + new_name + "\'")
 
@@ -120,6 +110,12 @@ def list():
 def req():
     """ Install requirements for current setup """
     mod_req.check_requirements()
+
+@cli.command()
+@click.argument('setup')
+def set_active(setup):
+    set_current_setup(setup)
+
 
 def install_config():
     """ Make base directory and configs for install """
