@@ -10,11 +10,6 @@ Decide if setups should have README's automatically generated when they upload t
 UPLOAD: If github repo already exists, don't attempt to create a new repo. Instead, just add and commit current changes
 INSTALL: Users should be able to use the install command to install a dependency on the users pc, then move the .config into the setups dotfile location
 
-A new direction to take this would be to put all of the users dotfiles in a backup setup, then overwrite users original dotfiles with other user's files.
-	This would fix the problem of knowing which .files to transfer, but not the problem of determining which dependencies are necessary
-		It would probably be best if requirements are always manually added, that way requirements that are not necessary are not added.
-			This would mean that automatically adding all .files would be bad, and only .files for required packages should be transfered
-
 Requirements.txt
 	Check function should check to make sure that all packages are recognized
 		If a package is not recognized, the user should be given an alternate predicted title for the package, if that name is correct, the package name should be corrected.
@@ -24,20 +19,13 @@ Requirements.txt
 It is probably important to be able to test your setup without regarding your previously installed packages.
 	This can be achieved by creating a seperate user profile with no installed packages and then deleting that profile after testing
 
-Use -r to pass a requirements.txt file to a setup
-	The setup will then copy the contents of the file into the setup requirements
-
 Might need a dependency requirement file that is only edited by the computer
 	Holds the names of the packages that need to be installed in order for requirements to be installed
 
 REMOVE: If the current active setup is about to be removed, inform the user and ask if they want to continue(y/n)
 	Tell them how to set new active setup
 
-
-Ask for requirements when new setup is created
-	Could add an option -r to pass requirements file
-	If file is not passed, packages must be typed individually and then checked by the system to see if the package is valid.
-		Once there are no more packages that must be added, an empty line should be submitted
-
 On startup, config files should be replaced with setup config files.
 	Config files should be replaced on close, but this is easier said than done
+
+Add ability to transfer wallpaper and other assets

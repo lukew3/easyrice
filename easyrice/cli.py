@@ -114,6 +114,10 @@ def set_active(setup):
     """ Sets the passed setup as active setup """
     set_current_setup(setup)
 
+@cli.command()
+def revert():
+    """ Reverts configs to what they were before the current setup """
+    mod_utils.revert()
 
 def install_config():
     """ Make base directory and configs for install """
