@@ -2,14 +2,24 @@ import os
 import shutil
 from tempfile import mkstemp
 import configparser
+from .mod_req import check_requirements
 
-def set_current_setup(setupName):
+def set_current_setup(setup_name):
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"
     config = configparser.ConfigParser()
     config.read(easyrice_path + "/config")
-    config['main']['current_setup'] = setupName
+    config['main']['current_setup'] = setup_name
     with open(easyrice_path + '/config', 'w') as configfile:
         config.write(configfile)
+    # Install requirements
+    setup_requirements()
+    # Write config files to user .config
+    localize_dotfiles(setup_name)
+
+def localize_dotfiles(setup_name):
+    setup_dotfiles = easyrice_path + "/setups/" + setup_name + "/dotfiles"
+    local_dotfiles = os.path.expanduser("~") + "/.config"
+    shutil.copytree(setup_dotfiles, local_dotfiles, dirs_exist_ok=True)
 
 def get_current_setup():
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"

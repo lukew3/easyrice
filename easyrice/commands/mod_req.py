@@ -2,9 +2,15 @@ import shutil
 import os
 import platform
 import distro
-from .mod_utils import replace, get_current_setup
+import configparser
 
-def check_requirements():
+def get_current_setup():
+    easyrice_path = os.path.expanduser("~") + "/.config/easyrice"
+    config = configparser.ConfigParser()
+    config.read(easyrice_path + "/config")
+    return config['main']['current_setup']
+
+def setup_requirements():
     setup = get_current_setup()
     setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
     requirements_file = setup_dir + "/requirements.txt"

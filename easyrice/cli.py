@@ -109,11 +109,6 @@ def list():
             print(setup)
 
 @cli.command()
-def req():
-    """ Install requirements for current setup """
-    mod_req.check_requirements()
-
-@cli.command()
 @click.argument('setup')
 def set_active(setup):
     """ Sets the passed setup as active setup """
