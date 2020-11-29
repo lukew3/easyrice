@@ -33,5 +33,11 @@ Might need a dependency requirement file that is only edited by the computer
 REMOVE: If the current active setup is about to be removed, inform the user and ask if they want to continue(y/n)
 	Tell them how to set new active setup
 
+
+Ask for requirements when new setup is created
+	Could add an option -r to pass requirements file
+	If file is not passed, packages must be typed individually and then checked by the system to see if the package is valid.
+		Once there are no more packages that must be added, an empty line should be submitted
+
 On startup, config files should be replaced with setup config files.
 	Config files should be replaced on close, but this is easier said than done

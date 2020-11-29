@@ -18,20 +18,20 @@ def cli(ctx):
         mod_run.main(setup_name)
 
 @cli.command()
-@click.option('--copy', '-c', is_flag=True)
-def new(copy):
+@click.option('--requirements', '-r', required=False)
+def new(requirements):
     """ Creates a new setup directory. Empty unless passed -c, which copies local setup """
     config_dir = os.path.expanduser("~") + "/.config"
+    # TODO: create a generated name with the lorem package if the user doesn't want to include a name https://pypi.org/project/lorem/
     setupName = input("Give your setup a name: ")
     while os.path.exists(config_dir + "/easyrice/setups/" + setupName):
         print("A setup with that name already exists")
         setupName = input("Give your setup a different name: ")
-    wm = input("Window manager: ")
-
-    if copy:
-        mod_new.copy(wm, setupName)
+    if requirements != None:
+        requirements_file = os.getcwd() + "/" + requirements
     else:
-        mod_new.make_base(wm, setupName)
+        requirements_file = ''
+    mod_new.make_base(setupName, requirements_file)
 
 
 @cli.command()
@@ -71,6 +71,8 @@ def rename(from_, to):
     subst = '/setups/' + new_name + '/dotfiles'
     replace(setup_config, pattern, subst)
     print("Setup \'" + current_name + "\' renamed to \'" + new_name + "\'")
+    if current_name == get_current_setup():
+        set_current_setup(new_name)
 
 
 @cli.command()
@@ -114,6 +116,7 @@ def req():
 @cli.command()
 @click.argument('setup')
 def set_active(setup):
+    """ Sets the passed setup as active setup """
     set_current_setup(setup)
 
 

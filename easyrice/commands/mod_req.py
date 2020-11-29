@@ -25,7 +25,6 @@ def install_requirements(requirements):
     for req in requirements:
         print("Installing " + req + "...")
         os.system(get_install_command(req, distro_name))
-    print(distro_name)
 
 
 def copy_configs(requirements, setup_dir):
