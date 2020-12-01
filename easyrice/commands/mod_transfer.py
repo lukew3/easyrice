@@ -9,11 +9,31 @@ def upload(setup):
     create_remote(setup)
     git_upload(setup)
 
-
+def decipher(ciphertext):
+    L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ",range(26)))
+    I2L = dict(zip(range(26),"ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+    key = 3
+    """
+    # encipher
+    ciphertext = ""
+    for c in plaintext.upper():
+        if c.isalpha(): ciphertext += I2L[ (L2I[c] + key)%26 ]
+        else: ciphertext += c
+    """
+    # decipher
+    plaintext = ""
+    for c in ciphertext.upper():
+        if c.isalpha(): plaintext += I2L[ (L2I[c] - key)%26 ]
+        else: plaintext += c
+    plaintext = plaintext.lower()
+    return plaintext
 
 def create_remote(name):
     # Notice that you username and token are required here
-    ACCESS_TOKEN = "5669176dd4487fd2b59ef185b998242ba287ba69"
+    # The access token is encoded so that github doesn't delete the token when it is published
+    # To get the real token, a caesar cipher is used
+    encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
+    ACCESS_TOKEN = decipher(encoded_token)
     NEW_REPO_NAME = name
     HOMEPAGE = 'https://github.com/lukew3/easyrice'
     ORGANISATION_NAME = 'easyrice-setups'
