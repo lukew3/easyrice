@@ -10,7 +10,7 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'Click', 'distro', 'lorem'
+        'Click', 'distro', 'lorem', 'pygithub'
     ],
     include_package_data=True,
     entry_points={

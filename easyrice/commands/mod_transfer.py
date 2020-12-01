@@ -3,6 +3,7 @@ import shutil
 import subprocess
 import requests
 import sys
+from github import Github
 from .mod_utils import replace, set_current_setup, expand_dir
 
 def upload(setup):
@@ -30,9 +31,13 @@ def create_remote(name):
     NEW_REPO_NAME = name
     HOMEPAGE = 'https://github.com/lukew3/easyrice'
     ORGANISATION_NAME = 'easyrice-setups'
-    script = 'curl -H "Authorization: token ' + ACCESS_TOKEN + '" --data \'{"name":"' + NEW_REPO_NAME + '", "homepage":"' + HOMEPAGE + '"}\' https://api.github.com/orgs/' + ORGANISATION_NAME + '/repos'
-    os.system(script)
-    script2 = f'curl -i -u "easyrice-community:{ACCESS_TOKEN}" -X PUT -d \'\' \'https://api.github.com/repos/easyrice-setups/{name}/collaborators/{collaborator_username}\''
+    g = Github(ACCESS_TOKEN)
+    organization = g.get_organization("easyrice-setups")
+    # Create repo
+    repo = organization.create_repo(name, homepage=HOMEPAGE)
+    # Add user as repo contributor
+    # Not sure if admin priveleges are necessary
+    repo.add_to_collaborators(collaborator_username, permission='admin')
 
 def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
@@ -40,14 +45,12 @@ def git_upload(setup_name):
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
     password = decipher(encoded_token)
     # This script uploads on behalf of the owner of the machine, not easyrice-community
-    # I don't think this will work because nto everybody has write access to the repository
-    # Maybe I could give certain people write access
     script = [
         f'cd {path}',
         'git init',
         'git add .',
         'git commit -m "Easyrice upload"',
-        f'git remote add origin https://{username}:{password}@github.com/easyrice-setups/{setup_name}.git',
+        f'git remote add origin https://github.com/easyrice-setups/{setup_name}.git',
         'git branch -M main',
         'git push -u origin main'
     ]
