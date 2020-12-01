@@ -13,13 +13,6 @@ def decipher(ciphertext):
     L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ",range(26)))
     I2L = dict(zip(range(26),"ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
     key = 3
-    """
-    # encipher
-    ciphertext = ""
-    for c in plaintext.upper():
-        if c.isalpha(): ciphertext += I2L[ (L2I[c] + key)%26 ]
-        else: ciphertext += c
-    """
     # decipher
     plaintext = ""
     for c in ciphertext.upper():
@@ -29,7 +22,7 @@ def decipher(ciphertext):
     return plaintext
 
 def create_remote(name):
-    # Notice that you username and token are required here
+    collaborator_username = input("What is your Github username: ")
     # The access token is encoded so that github doesn't delete the token when it is published
     # To get the real token, a caesar cipher is used
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
@@ -39,18 +32,22 @@ def create_remote(name):
     ORGANISATION_NAME = 'easyrice-setups'
     script = 'curl -H "Authorization: token ' + ACCESS_TOKEN + '" --data \'{"name":"' + NEW_REPO_NAME + '", "homepage":"' + HOMEPAGE + '"}\' https://api.github.com/orgs/' + ORGANISATION_NAME + '/repos'
     os.system(script)
+    script2 = f'curl -i -u "easyrice-community:{ACCESS_TOKEN}" -X PUT -d \'\' \'https://api.github.com/repos/easyrice-setups/{name}/collaborators/{collaborator_username}\''
 
 def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
-    # The current script uploads on
     username = "easyrice-community"
-    password = "5669176dd4487fd2b59ef185b998242ba287ba69"
+    encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
+    password = decipher(encoded_token)
+    # This script uploads on behalf of the owner of the machine, not easyrice-community
+    # I don't think this will work because nto everybody has write access to the repository
+    # Maybe I could give certain people write access
     script = [
         f'cd {path}',
         'git init',
         'git add .',
         'git commit -m "Easyrice upload"',
-        f'git remote add origin https://github.com/easyrice-setups/' + setup_name + '.git',
+        f'git remote add origin https://{username}:{password}@github.com/easyrice-setups/{setup_name}.git',
         'git branch -M main',
         'git push -u origin main'
     ]
