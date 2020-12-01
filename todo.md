@@ -46,14 +46,9 @@
   - [ ] Make sure this is the case and then remove i3 from requirements
   - [ ] Maybe remove i3 if i3-gaps is found in requirements automatically
 
-- [ ] Add ability to pass -n SETUP_NAME for NEW.
-
 - [ ] If set_active is called when the setup is already active, skip process
   - [ ] Unless the user wants to refresh settings
     - [ ] Could add -f --force option to set-active to force refresh
-
-- [ ] Could possibly add a list of already installed packages so that the install requirements process is faster and doesn't have to run through all of the requirements
-  - [ ] Might not be good because somebody might remove a package and confuse easyrice
 
 - [ ] Quickly check if a package is installed before running install script with:
 
@@ -65,3 +60,7 @@ if retval != 0:
 ```
 - [ ] Fix weird naming and deprecated function in mod_new
 - [ ] When creating the wm run command make sure that the wm is correctly identified in the list of requirements. Currently it is identified by being the first requirement in the list. Possibly have a list of possible wms and if an item is on requirements list and wm list, that is the wm. If no common package is found, just use the first item in the list.
+
+- [ ] Test if upload works for users outside of organization owners
+
+- [ ] Remove newline character from last item of requirements_list in NEW

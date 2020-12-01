@@ -21,11 +21,15 @@ def cli(ctx):
 
 @cli.command()
 @click.option('--requirements', '-r', required=False)
-def new(requirements):
+@click.option('--name', '-n', required=False)
+def new(requirements, name):
     """ Creates a new setup directory. Empty unless passed -c, which copies local setup """
     config_dir = os.path.expanduser("~") + "/.config"
     # TODO: create a generated name with the lorem package if the user doesn't want to include a name https://pypi.org/project/lorem/
-    setupName = input("Give your setup a name: ")
+    if name=="":
+        setupName = input("Give your setup a name: ")
+    else:
+        setupName = name
     while os.path.exists(config_dir + "/easyrice/setups/" + setupName):
         print("A setup with that name already exists")
         setupName = input("Give your setup a different name: ")
