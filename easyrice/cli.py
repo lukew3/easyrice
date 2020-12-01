@@ -17,6 +17,7 @@ def cli(ctx):
     if ctx.invoked_subcommand is None:
         mod_run.main(setup_name)
 
+
 @cli.command()
 @click.option('--requirements', '-r', required=False)
 def new(requirements):
@@ -49,29 +50,27 @@ def clone(repo):
 
 
 @cli.command()
-@click.option('--from', '-f', 'from_', required=False)
-@click.option('--to', '-t', required=False)
-def rename(from_, to):
+@click.argument('old_name')
+@click.argument('new_name')
+def rename(old_name, new_name):
     """ Rename an existing setup"""
-    current_name = from_
-    new_name = to
-    if current_name == None:
-        current_name = input("Enter the setup you want to rename: ")
+    if old_name == None:
+        old_name = input("Enter the setup you want to rename: ")
     if new_name == None:
         new_name = input("Enter the new name for the setup: ")
-    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + current_name
+    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
     new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
     os.rename(current_folder, new_folder)
 
     # Replace name of setup in config run_wm_command
     # This is incomplete because name needs to be changed in each config file as well
-    # probably could do some recursive search through files for \setups\<current_name>\
+    # probably could do some recursive search through files for \setups\<old_name>\
     setup_config = new_folder + "/config"
-    pattern = '/setups/' + current_name + '/dotfiles'
+    pattern = '/setups/' + old_name + '/dotfiles'
     subst = '/setups/' + new_name + '/dotfiles'
     replace(setup_config, pattern, subst)
-    print("Setup \'" + current_name + "\' renamed to \'" + new_name + "\'")
-    if current_name == get_current_setup():
+    print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
+    if old_name == get_current_setup():
         set_current_setup(new_name)
 
 
@@ -83,6 +82,7 @@ def remove(setup):
     setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
     os.system('rm -rf ' + setup_dir)
     # Could add a message that tells if the setup doesn't exist and can't be removed
+
 
 #This method of upload was deprecated by github.
 # This can still work if you add tokens
@@ -108,16 +108,56 @@ def list():
         else:
             print(setup)
 
+
 @cli.command()
 @click.argument('setup')
 def set_active(setup):
     """ Sets the passed setup as active setup """
     set_current_setup(setup)
 
+
 @cli.command()
 def revert():
     """ Reverts configs to what they were before the current setup """
     mod_utils.revert()
+
+
+@cli.command()
+@click.argument('setup')
+def export(setup):
+    """ Export given setup to home directory """
+    export_dir = os.path.expanduser("~") + "/" + setup
+    src_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
+    if not os.path.isdir(export_dir):
+        shutil.copytree(src_dir, export_dir)
+        print("Setup \"" + setup + "\" exported to " + export_dir)
+    else:
+        print("Folder with that setup name already exists")
+
+
+@cli.command()
+@click.argument('setup')
+def add(setup):
+    """ Imports a setup folder into easyrice """
+    src_dir = ""
+    dest_dir = os.path.expanduser("~") + "/.config/easyrice/setups/"
+    # If direct reference
+    if setup[0] == "/":
+        src_dir = setup
+    # If relative reference
+    else:
+        src_dir = os.getcwd() + '/' + setup
+    setup_name = setup.split('/')[-1]
+    dest_dir += setup_name
+    print(src_dir)
+    print(dest_dir)
+    if os.path.exists(src_dir):
+        shutil.copytree(src_dir, dest_dir)
+        print("Setup " + setup_name + " successfully added")
+        set_current_setup(setup_name)
+    else:
+        print("Setup folder not found")
+
 
 def install_config():
     """ Make base directory and configs for install """

@@ -29,3 +29,7 @@ On startup, config files should be replaced with setup config files.
 	Config files should be replaced on close, but this is easier said than done
 
 Add ability to transfer wallpaper and other assets
+
+It seems that i3-gaps just removes i3
+	Make sure this is the case and then remove i3 from requirements
+	Maybe remove i3 if i3-gaps is found in requirements automatically

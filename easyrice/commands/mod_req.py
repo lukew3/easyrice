@@ -29,6 +29,7 @@ def setup_requirements():
 def install_requirements(requirements):
     distro_name = distro.linux_distribution(full_distribution_name=False)[0]
     for req in requirements:
+        print("-------------------------")
         print("Installing " + req + "...")
         os.system(get_install_command(req, distro_name))
 
