@@ -63,3 +63,4 @@ retval = subprocess.call(["which", "packagename"])
 if retval != 0:
     print("Packagename not installed!")
 ```
+- [ ] Fix weird naming and deprecated function in mod_new
