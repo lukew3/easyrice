@@ -9,6 +9,7 @@ from tempfile import mkstemp
 from .commands import mod_new, mod_run, mod_upload, mod_utils, mod_req
 from .commands.mod_utils import set_current_setup, get_current_setup, replace
 
+
 @click.group(invoke_without_command=True)
 @click.pass_context
 def cli(ctx):
@@ -84,7 +85,7 @@ def remove(setup):
     # Could add a message that tells if the setup doesn't exist and can't be removed
 
 
-#This method of upload was deprecated by github.
+# This method of upload was deprecated by github.
 # This can still work if you add tokens
 @cli.command()
 @click.argument('setup')
@@ -98,7 +99,7 @@ def upload(setup):
 def list():
     """ Lists all setups in easyrice config """
     # Maybe you could include the window manager used in each setup
-        # Even better you could add an option that allows the user to see all installed packages or config folder names
+    # Even better you could add an option that allows the user to see all installed packages or config folder names
     setups_dir = os.path.expanduser("~") + "/.config/easyrice/setups/"
     setups_list = os.listdir(setups_dir)
     active = get_current_setup()

@@ -4,11 +4,13 @@ import platform
 import distro
 import configparser
 
+
 def get_current_setup():
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"
     config = configparser.ConfigParser()
     config.read(easyrice_path + "/config")
     return config['main']['current_setup']
+
 
 def setup_requirements():
     setup = get_current_setup()
@@ -20,9 +22,9 @@ def setup_requirements():
         requirements[i] = requirements[i].strip()
 
     print(requirements)
-    #Check that the packages are valid and install
+    # Check that the packages are valid and install
     install_requirements(requirements)
-    #Copy .config files
+    # Copy .config files
     copy_configs(requirements, setup_dir)
 
 
@@ -42,6 +44,7 @@ def copy_configs(requirements, setup_dir):
             new_dir = setup_dir + "/dotfiles/" + req
             shutil.copyfile(old_dir, new_dir)
 
+
 def get_install_command(req, distro_name):
     # Support is needed for requirements that must be installed from source
     if distro_name == 'ubuntu':
@@ -55,9 +58,9 @@ def get_install_command(req, distro_name):
         # Unfortunately, there isn't one universal way to install
         # The variables in here aren't valid yet, they are just pseudocode
         script_list = [
-        'git clone ' + git_url,
-        'cd ' + package,
-        'sudo make install'
+            'git clone ' + git_url,
+            'cd ' + package,
+            'sudo make install'
         ]
         script = '\n'.join(script)
     return script

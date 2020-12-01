@@ -1,8 +1,10 @@
 import os
 import configparser
 
+
 def main(setup):
     os.system(get_run_command(setup))
+
 
 def get_run_command(setup_name):
     """ Gets the path of the window manager config """

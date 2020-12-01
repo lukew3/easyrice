@@ -3,6 +3,7 @@ import shutil
 import configparser
 from .mod_utils import replace, set_current_setup
 
+
 def make_base(setupName, requirements_file=''):
     # Write base directory
     parent_dir = os.path.expanduser("~") + "/.config/easyrice/setups"
@@ -130,8 +131,10 @@ def copy(setupName):
     # would detect which apps started up before you started using the environment
     # Then those apps would be added to requirements.txt and their configs added to app_config folder
 
+
 def replace_dotfiles():
     pass
+
 
 def backup_dotfiles():
     pass
