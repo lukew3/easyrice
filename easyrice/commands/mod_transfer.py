@@ -1,27 +1,41 @@
 import os
 import shutil
+import subprocess
+import requests
+import sys
 from .mod_utils import replace, set_current_setup, expand_dir
 
-def upload(username, setup):
-    setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
-    script = get_upload_script(setup_dir, username, setup)
+def upload(setup):
+    create_remote(setup)
+    git_upload(setup)
+
+
+
+def create_remote(name):
+    # Notice that you username and token are required here
+    ACCESS_TOKEN = "e58077bdcfaed05b59ffe43ae1549bec13da776b"
+    NEW_REPO_NAME = name
+    HOMEPAGE = 'https://github.com/lukew3/easyrice'
+    ORGANISATION_NAME = 'easyrice-setups'
+    script = 'curl -H "Authorization: token ' + ACCESS_TOKEN + '" --data \'{"name":"' + NEW_REPO_NAME + '", "homepage":"' + HOMEPAGE + '"}\' https://api.github.com/orgs/' + ORGANISATION_NAME + '/repos'
     os.system(script)
 
-
-def get_upload_script(path, user, repo):
+def git_upload(setup_name):
+    path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
+    # The current script uploads on
+    username = "easyrice-community"
+    password = "e58077bdcfaed05b59ffe43ae1549bec13da776b"
     script = [
         f'cd {path}',
         'git init',
         'git add .',
         'git commit -m "Easyrice upload"',
-        'curl -u \'' + user +
-        '\' https://api.github.com/user/repos -d \'{\"name\":\"' + repo + '\"}\'',
-        f'git remote add origin https://github.com/{user}/{repo}.git',
+        f'git remote add origin https://github.com/easyrice-setups/' + setup_name + '.git',
         'git branch -M main',
         'git push -u origin main'
     ]
     output = '\n'.join(script)
-    return output
+    os.system(output)
 
 
 def git_clone(repo):

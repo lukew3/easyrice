@@ -64,3 +64,4 @@ if retval != 0:
     print("Packagename not installed!")
 ```
 - [ ] Fix weird naming and deprecated function in mod_new
+- [ ] When creating the wm run command make sure that the wm is correctly identified in the list of requirements. Currently it is identified by being the first requirement in the list. Possibly have a list of possible wms and if an item is on requirements list and wm list, that is the wm. If no common package is found, just use the first item in the list.

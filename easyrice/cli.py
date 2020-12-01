@@ -84,8 +84,7 @@ def remove(setup):
 @click.argument('setup')
 def upload(setup):
     """ Uploads passed setup to your github """
-    username = input("Github username: ")
-    mod_transfer.upload(username, setup)
+    mod_transfer.upload(setup)
 
 
 @cli.command()
