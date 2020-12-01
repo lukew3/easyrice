@@ -13,7 +13,7 @@ def upload(setup):
 
 def create_remote(name):
     # Notice that you username and token are required here
-    ACCESS_TOKEN = "e58077bdcfaed05b59ffe43ae1549bec13da776b"
+    ACCESS_TOKEN = "5669176dd4487fd2b59ef185b998242ba287ba69"
     NEW_REPO_NAME = name
     HOMEPAGE = 'https://github.com/lukew3/easyrice'
     ORGANISATION_NAME = 'easyrice-setups'
@@ -24,7 +24,7 @@ def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
     # The current script uploads on
     username = "easyrice-community"
-    password = "e58077bdcfaed05b59ffe43ae1549bec13da776b"
+    password = "5669176dd4487fd2b59ef185b998242ba287ba69"
     script = [
         f'cd {path}',
         'git init',
