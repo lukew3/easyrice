@@ -40,8 +40,6 @@
 - [ ] On startup, config files should be replaced with setup config files.
   - [ ] Config files should be replaced on close, but this is easier said than done
 
-- [ ] Add ability to transfer wallpaper and other assets
-
 - [ ] It seems that i3-gaps just removes i3
   - [ ] Make sure this is the case and then remove i3 from requirements
   - [ ] Maybe remove i3 if i3-gaps is found in requirements automatically
@@ -64,3 +62,7 @@ if retval != 0:
 - [ ] Test if upload works for users outside of organization owners
 
 - [ ] Remove newline character from last item of requirements_list in NEW
+
+- [ ] Maybe localize wallpaper after configs are transferred?
+  - [ ] This would fix broken references to wallpapers when setups are deleted
+  

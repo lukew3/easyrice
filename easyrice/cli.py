@@ -26,7 +26,7 @@ def new(requirements, name):
     """ Creates a new setup directory. Empty unless passed -c, which copies local setup """
     config_dir = os.path.expanduser("~") + "/.config"
     # TODO: create a generated name with the lorem package if the user doesn't want to include a name https://pypi.org/project/lorem/
-    if name=="":
+    if name == None:
         setupName = input("Give your setup a name: ")
     else:
         setupName = name
@@ -87,7 +87,7 @@ def remove(setup):
 @cli.command()
 @click.argument('setup')
 def upload(setup):
-    """ Uploads passed setup to your github """
+    """ Uploads passed setup to easyrice-setups github """
     mod_transfer.upload(setup)
 
 

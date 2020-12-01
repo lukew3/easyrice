@@ -6,21 +6,26 @@ import sys
 from github import Github
 from .mod_utils import replace, set_current_setup, expand_dir
 
+
 def upload(setup):
     create_remote(setup)
     git_upload(setup)
 
+
 def decipher(ciphertext):
-    L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ",range(26)))
-    I2L = dict(zip(range(26),"ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+    L2I = dict(zip("ABCDEFGHIJKLMNOPQRSTUVWXYZ", range(26)))
+    I2L = dict(zip(range(26), "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
     key = 3
     # decipher
     plaintext = ""
     for c in ciphertext.upper():
-        if c.isalpha(): plaintext += I2L[ (L2I[c] - key)%26 ]
-        else: plaintext += c
+        if c.isalpha():
+            plaintext += I2L[(L2I[c] - key) % 26]
+        else:
+            plaintext += c
     plaintext = plaintext.lower()
     return plaintext
+
 
 def create_remote(name):
     collaborator_username = input("What is your Github username: ")
@@ -38,6 +43,7 @@ def create_remote(name):
     # Add user as repo contributor
     # Not sure if admin priveleges are necessary
     repo.add_to_collaborators(collaborator_username, permission='admin')
+
 
 def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
@@ -81,6 +87,7 @@ def local_export(setup):
             print("Setup \"" + setup + "\" exported to " + export_dir)
         else:
             print("Folder with that setup name already exists")
+
 
 def local_import(setup_dir):
     src_dir = ""

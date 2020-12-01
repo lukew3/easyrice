@@ -20,8 +20,9 @@ def setup_requirements():
     requirements = f.readlines()
     for i in range(0, len(requirements)-1):
         requirements[i] = requirements[i].strip()
-
-    print(requirements)
+    # Removes extra newline character in last line of requirements
+    if requirements[-1][-1:] == "\n":
+        requirements[-1] = requirements[-1][:-1]
     # Check that the packages are valid and install
     install_requirements(requirements)
     # Copy .config files

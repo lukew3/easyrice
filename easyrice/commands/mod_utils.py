@@ -65,6 +65,7 @@ def replace(file_path, pattern, subst):
     # Move new file
     shutil.move(abs_path, file_path)
 
+
 def expand_dir(og_dir):
     if og_dir[0] == "/":
         return og_dir
