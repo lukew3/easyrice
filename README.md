@@ -22,7 +22,7 @@ easyrice
         │   └── i3
         │       └── config
         ├── assets
-        │   └── retrolinuxdark.png
+        │   └── wallpaper.png
         ├── config
         └── requirements.txt
 ```
@@ -31,15 +31,18 @@ easyrice
 ```
 Usage: easyrice [OPTIONS] COMMAND [ARGS]...
 
-  Runs the setup selected in config or the command passed
-
 Options:
-  -s, --setup-name TEXT  Include the name of the setup you want to use
-  --help                 Show this message and exit.
+  --help  Show this message and exit.
 
 Commands:
-  copy-current  Copies your current setup made outside of easyrice
-  delete-setup  Delete an existing setup
-  new-setup     Creates a new setup with empty directories
-  rename-setup  Rename an existing setup
+  add         Imports a setup folder into easyrice
+  clone       Clones a setup from a passed git remote repository
+  export      Export given setup to home directory
+  list        Lists all setups in easyrice config
+  new         Creates a new setup directory.
+  remove      Delete an existing setup
+  rename      Rename an existing setup
+  revert      Reverts configs to what they were before the current setup
+  set-active  Sets the passed setup as active setup
+  upload      Uploads passed setup to your github
 ```

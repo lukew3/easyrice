@@ -64,3 +64,13 @@ def replace(file_path, pattern, subst):
     os.remove(file_path)
     # Move new file
     shutil.move(abs_path, file_path)
+
+def expand_dir(og_dir):
+    if og_dir[0] == "/":
+        return og_dir
+    elif og_dir[0] == "~":
+        full_dir = os.path.expanduser("~") + og_dir[1:]
+        return full_dir
+    else:
+        full_dir = os.getcwd() + '/' + og_dir
+        return full_dir

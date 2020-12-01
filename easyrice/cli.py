@@ -6,7 +6,7 @@ import click
 import sys
 from tempfile import mkstemp
 
-from .commands import mod_new, mod_run, mod_upload, mod_utils, mod_req
+from .commands import mod_new, mod_run, mod_transfer, mod_utils, mod_req
 from .commands.mod_utils import set_current_setup, get_current_setup, replace
 
 
@@ -40,14 +40,7 @@ def new(requirements):
 @click.argument('repo')
 def clone(repo):
     """ Clones a setup from a passed git remote repository """
-    setups_dir = os.path.expanduser("~") + '/.config/easyrice/setups'
-    clone_script = 'cd ' + setups_dir + '\ngit clone ' + repo
-    os.system(clone_script)
-    setup_name = repo.split('/')[-1].split('.')[0]
-    set_current_setup(setup_name)
-    # Might want to add a way to check if the git repo has an extra folder in it.
-    # If the user uploaded the whole folder instead of the insides of the folder, this script wont work
-    # Or you could make a way to automatically upload a setup to github
+    mod_transfer.git_clone(repo)
 
 
 @cli.command()
@@ -92,7 +85,7 @@ def remove(setup):
 def upload(setup):
     """ Uploads passed setup to your github """
     username = input("Github username: ")
-    mod_upload.main(username, setup)
+    mod_transfer.upload(username, setup)
 
 
 @cli.command()
@@ -127,37 +120,15 @@ def revert():
 @click.argument('setup')
 def export(setup):
     """ Export given setup to home directory """
-    export_dir = os.path.expanduser("~") + "/" + setup
-    src_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
-    if not os.path.isdir(export_dir):
-        shutil.copytree(src_dir, export_dir)
-        print("Setup \"" + setup + "\" exported to " + export_dir)
-    else:
-        print("Folder with that setup name already exists")
+    # Could add option to change output location
+    mod_transfer.local_export(setup)
 
 
 @cli.command()
-@click.argument('setup')
-def add(setup):
+@click.argument('setup_dir')
+def add(setup_dir):
     """ Imports a setup folder into easyrice """
-    src_dir = ""
-    dest_dir = os.path.expanduser("~") + "/.config/easyrice/setups/"
-    # If direct reference
-    if setup[0] == "/":
-        src_dir = setup
-    # If relative reference
-    else:
-        src_dir = os.getcwd() + '/' + setup
-    setup_name = setup.split('/')[-1]
-    dest_dir += setup_name
-    print(src_dir)
-    print(dest_dir)
-    if os.path.exists(src_dir):
-        shutil.copytree(src_dir, dest_dir)
-        print("Setup " + setup_name + " successfully added")
-        set_current_setup(setup_name)
-    else:
-        print("Setup folder not found")
+    mod_transfer.local_import(setup_dir)
 
 
 def install_config():
