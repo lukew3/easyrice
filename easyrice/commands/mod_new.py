@@ -41,20 +41,28 @@ def make_base(setup_name, requirements_file=''):
         else:
             print("Requirement " + req + " config not found")
 
-    # Write window manager run command
-    wm = requirements[0]
-    # TODO: Check that the first item in requirements is a wm
-    # If it is not, check the list of requirements for a wm
-    # The current config file just conveys the same variable twice TODO: either remove run_wm_command or make use of it
+    # Gets window manager, checks requirements for commonly used wm and uses first requirement if not found in common_wms
+    common_wms = ['i3', 'i3-gaps', 'bspwm', 'awesome', 'openbox']
+    wm = ""
+    for item in requirements:
+        if item in common_wms:
+            wm = item
+            break
+    if wm == "":
+        wm = requirements[0]
+
     config = configparser.ConfigParser()
+    # Not sure if run_wm_command should be removed or not
     config['DEFAULT'] = {'window_manager': wm,
                          'run_wm_command': wm}
     with open(setup_dir + "/config", 'w') as configfile:
         config.write(configfile)
     print("Base directory created")
     set_current_setup(setup_name)
-    # This might only work on i3, bspwm has 'bspwmrc' as config file
-    wm_config_file = setup_dir + "/dotfiles/" + wm + "/config"
+    # Get name of wm config file and move wallpaper to setup assets
+    wm_config_folder = setup_dir + "/dotfiles/" + wm
+    # The listdir[0] way of doing this might not work in wm's with lots of config files, but it works for the top 3 at least
+    wm_config_file = wm_config_folder + '/' + os.listdir(wm_config_folder)[0]
     if os.path.exists(wm_config_file):
         get_wallpaper(wm_config_file, setup_name)
     # Create README
