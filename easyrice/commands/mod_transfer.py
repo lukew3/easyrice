@@ -57,8 +57,7 @@ def create_remote(name):
             repo = organization.create_repo(name, homepage=HOMEPAGE)
         except:
             new_name = input("That name is taken, choose another: ")
-            copy_setup(name, new_name)
-            remove_setup(name, True)
+            rename_setup(name, new_name)
             name = new_name
         else:
             unique_name = True
@@ -69,6 +68,7 @@ def create_remote(name):
     return name
 
 def git_upload(setup_name):
+    print(setup_name)
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
     username = "easyrice-community"
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
@@ -76,6 +76,7 @@ def git_upload(setup_name):
     # This script uploads on behalf of the owner of the machine, not easyrice-community
     script = [
         f'cd {path}',
+        'rm -rf .git',
         'git init',
         'git add .',
         'git commit -m "Easyrice upload"',

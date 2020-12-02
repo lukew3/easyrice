@@ -44,12 +44,15 @@ def rename_setup(old_name, new_name):
     # This is incomplete because name needs to be changed in each config file as well
     # probably could do some recursive search through files for \setups\<old_name>\
     setup_config = new_folder + "/config"
-    pattern = '/setups/' + old_name + '/dotfiles'
-    subst = '/setups/' + new_name + '/dotfiles'
+    pattern = '/easyrice/setups/' + old_name
+    subst = 'easyrice/setups/' + new_name
     replace(setup_config, pattern, subst)
+    readme_location = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name + "/README.md"
+    replace(readme_location, old_name, new_name)
     print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
     if old_name == get_current_setup():
         set_current_setup(new_name)
+
 
 def set_current_setup(setup_name):
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"

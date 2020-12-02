@@ -15,7 +15,6 @@
 - [ ] Fix inconsistencies
 - [ ] Add ability to add custom .desktop entries to desktop environment manager
  	- [ ] You can have a seperate entry for each setup you want to use on a regular basis
-- [ ] Decide if setups should have README's automatically generated when they upload to github
 - [ ] UPLOAD: If github repo already exists, don't attempt to create a new repo. Instead, just add and commit current changes
 - [ ] INSTALL: Users should be able to use the install command to install a dependency on the users pc, then move the .config into the setups dotfile location
 
@@ -24,7 +23,7 @@
     - [ ] Show a numbered list of requirements that are installed on your computer and are common in ricing setups. Then type a list with numbers seperated by a space to save to  requirements
       - [ ] The following script should return a list of all manually installed packages
  			  - [ ] comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-        
+
 - [ ] It would be nice if on startup, config files should be replaced with setup config files.
   - [ ] Config files should be replaced on close, but this is easier said than done
   - [ ] You also have to take into consideration installing the requirements
@@ -54,3 +53,5 @@ if retval != 0:
 - [ ] Add a copy argument to copy a setup to a new setup with everything the same except for the setup name
 
 - [ ] Find out if `install_config` method is the best way to initialize .config files (I'm almost certain it's not)
+
+- [ ] Wallpaper doesn't work when setup renamed because reference in config isn't edited
