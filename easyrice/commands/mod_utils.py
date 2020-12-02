@@ -4,6 +4,32 @@ from tempfile import mkstemp
 import configparser
 from .mod_req import setup_requirements
 
+def remove_setup(setup_name, warning_off):
+    # Could print a list of setups numbered and then ask for a number or numbers to delete
+    setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
+    # Warns if setup is current setup
+    if (get_current_setup() == setup_name) and warning_off == False:
+        choice = input("This is your active setup, are you sure you want to remove it? (y/n)")
+        if choice == 'n' or choice == 'N':
+            return 0
+    # Check that setup existss
+    if os.path.exists(setup_dir):
+        os.system('rm -rf ' + setup_dir)
+    else:
+        print("Setup \"" + setup_name + "\" doesn't exist")
+
+def copy_setup(old_name, new_name):
+    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
+    current_placeholder = current_folder + "(1)"
+    new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
+
+    # Add (1) to the end of current_folder to differentiate
+    os.rename(current_folder, current_placeholder)
+
+    shutil.copytree(current_placeholder, current_folder)
+
+    rename_setup(old_name, new_name)
+    os.rename(current_placeholder, current_folder)
 
 def rename_setup(old_name, new_name):
     if old_name == None:

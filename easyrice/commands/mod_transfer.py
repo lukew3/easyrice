@@ -5,12 +5,12 @@ import requests
 import sys
 from github import Github
 import configparser
-from .mod_utils import replace, set_current_setup, expand_dir, rename_setup
+from .mod_utils import replace, set_current_setup, expand_dir, rename_setup, remove_setup, copy_setup
 
 def upload(setup):
-    create_remote(setup)
+    setup_name = create_remote(setup)
     input("Check your email and accept invitation to collaborate. Then press enter to continue")
-    git_upload(setup)
+    git_upload(setup_name)
 
 
 def decipher(ciphertext):
@@ -57,7 +57,8 @@ def create_remote(name):
             repo = organization.create_repo(name, homepage=HOMEPAGE)
         except:
             new_name = input("That name is taken, choose another: ")
-            rename_setup(name, new_name)
+            copy_setup(name, new_name)
+            remove_setup(name, True)
             name = new_name
         else:
             unique_name = True
@@ -65,6 +66,7 @@ def create_remote(name):
     # Add user as repo contributor
     # Not sure if admin priveleges are necessary
     repo.add_to_collaborators(github_username, permission='admin')
+    return name
 
 def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
@@ -81,6 +83,7 @@ def git_upload(setup_name):
         'git branch -M main',
         'git push -u origin main'
     ]
+    print(script)
     output = '\n'.join(script)
     os.system(output)
 

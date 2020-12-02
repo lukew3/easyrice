@@ -57,20 +57,10 @@ def rename(old_name, new_name):
 
 @cli.command()
 @click.argument('setup')
-def remove(setup):
+@click.option('-w', '--warning-off', is_flag=True)
+def remove(setup, warning_off):
     """ Delete an existing setup """
-    # Could print a list of setups numbered and then ask for a number or numbers to delete
-    setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
-    # Warns if setup is current setup
-    if get_current_setup() == setup:
-        choice = input("This is your active setup, are you sure you want to remove it? (y/n)")
-        if choice == 'n' or choice == 'N':
-            return 0
-    # Check that setup existss
-    if os.path.exists(setup_dir):
-        os.system('rm -rf ' + setup_dir)
-    else:
-        print("Setup \"" + setup + "\" doesn't exist")
+    mod_utils.remove_setup(setup, warning_off)
 
 
 @cli.command()
