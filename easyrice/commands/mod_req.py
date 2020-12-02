@@ -3,7 +3,7 @@ import os
 import platform
 import distro
 import configparser
-
+from .mod_pkg_install import get_install_script
 
 def get_current_setup():
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"
@@ -34,7 +34,7 @@ def install_requirements(requirements):
     for req in requirements:
         print("-------------------------")
         print("Installing " + req + "...")
-        os.system(get_install_command(req, distro_name))
+        os.system(get_install_script(req, distro_name))
 
 
 def copy_configs(requirements, setup_dir):
@@ -44,28 +44,3 @@ def copy_configs(requirements, setup_dir):
         if os.path.isdir(old_dir):
             new_dir = setup_dir + "/dotfiles/" + req
             shutil.copyfile(old_dir, new_dir)
-
-
-def get_install_command(req, distro_name):
-    # Support is needed for requirements that must be installed from source
-    if distro_name == 'ubuntu':
-        script = 'sudo apt-get install ' + req
-    elif distro_name == 'fedora':
-        script = 'sudo dnf install ' + req
-    elif distro_name == 'debian':
-        script = 'sudo apt install ' + req
-    else:
-        script = get_install_from_source_script(req, distro_name)
-    return script
-
-
-def get_install_from_source_script(req, distro_name):
-    # There needs to be some way to tell the system how to retrieve the package.
-    # Unfortunately, there isn't one universal way to install
-    # The variables in here aren't valid yet, they are just pseudocode
-    git_url = "github.com/" + req + "/" + req
-    script_list = [
-        'git clone ' + git_url, 'cd ' + req, 'sudo make install', 'cd ..', 'rm -rf ' + req,
-    ]
-    script = '\n'.join(script_list)
-    return script
