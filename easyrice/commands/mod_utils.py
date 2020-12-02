@@ -10,7 +10,7 @@ def remove_setup(setup_name, warning_off):
     setup_dir = os.path.expanduser(
         "~") + "/.config/easyrice/setups/" + setup_name
     # Warns if setup is current setup
-    if (get_current_setup() == setup_name) and warning_off == False:
+    if (get_current_setup() == setup_name) and (warning_off is False):
         choice = input(
             "This is your active setup, are you sure you want to remove it? (y/n)"
         )
@@ -27,8 +27,6 @@ def copy_setup(old_name, new_name):
     current_folder = os.path.expanduser(
         "~") + "/.config/easyrice/setups/" + old_name
     current_placeholder = current_folder + "(1)"
-    new_folder = os.path.expanduser(
-        "~") + "/.config/easyrice/setups/" + new_name
 
     # Add (1) to the end of current_folder to differentiate
     os.rename(current_folder, current_placeholder)
@@ -40,9 +38,9 @@ def copy_setup(old_name, new_name):
 
 
 def rename_setup(old_name, new_name):
-    if old_name == None:
+    if old_name is None:
         old_name = input("Enter the setup you want to rename: ")
-    if new_name == None:
+    if new_name is None:
         new_name = input("Enter the new name for the setup: ")
     current_folder = os.path.expanduser(
         "~") + "/.config/easyrice/setups/" + old_name

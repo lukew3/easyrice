@@ -53,10 +53,10 @@ def create_remote(name):
 
     # Check if repo exists, then create repo if it doesn't
     unique_name = False
-    while unique_name == False:
+    while unique_name is False:
         try:
             repo = organization.create_repo(name, homepage=HOMEPAGE)
-        except:
+        except Exception:
             new_name = input("That name is taken, choose another: ")
             rename_setup(name, new_name)
             name = new_name
@@ -72,9 +72,11 @@ def create_remote(name):
 def git_upload(setup_name):
     print(setup_name)
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
-    username = "easyrice-community"
+    """
+    # The following lines would be necessary if I could figure out how to git push with easyrice-community user
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
     password = decipher(encoded_token)
+    """
     # This script uploads on behalf of the owner of the machine, not easyrice-community
     script = [
         f'cd {path}', 'rm -rf .git', 'git init', 'git add .',
@@ -101,7 +103,7 @@ def git_clone(repo):
 
 def local_export(setup, to_dir):
     export_dir = ""
-    if to_dir == None:
+    if to_dir is None:
         export_dir = os.path.expanduser("~") + "/" + setup
     else:
         export_dir = to_dir
