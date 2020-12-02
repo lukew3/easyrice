@@ -5,6 +5,26 @@ import configparser
 from .mod_req import setup_requirements
 
 
+def rename_setup(old_name, new_name):
+    if old_name == None:
+        old_name = input("Enter the setup you want to rename: ")
+    if new_name == None:
+        new_name = input("Enter the new name for the setup: ")
+    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
+    new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
+    os.rename(current_folder, new_folder)
+
+    # Replace name of setup in config run_wm_command
+    # This is incomplete because name needs to be changed in each config file as well
+    # probably could do some recursive search through files for \setups\<old_name>\
+    setup_config = new_folder + "/config"
+    pattern = '/setups/' + old_name + '/dotfiles'
+    subst = '/setups/' + new_name + '/dotfiles'
+    replace(setup_config, pattern, subst)
+    print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
+    if old_name == get_current_setup():
+        set_current_setup(new_name)
+
 def set_current_setup(setup_name):
     easyrice_path = os.path.expanduser("~") + "/.config/easyrice"
     config = configparser.ConfigParser()

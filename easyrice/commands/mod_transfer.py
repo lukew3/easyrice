@@ -5,7 +5,7 @@ import requests
 import sys
 from github import Github
 import configparser
-from .mod_utils import replace, set_current_setup, expand_dir
+from .mod_utils import replace, set_current_setup, expand_dir, rename_setup
 
 
 def upload(setup):
@@ -50,8 +50,19 @@ def create_remote(name):
     ORGANISATION_NAME = 'easyrice-setups'
     g = Github(ACCESS_TOKEN)
     organization = g.get_organization("easyrice-setups")
-    # Create repo
-    repo = organization.create_repo(name, homepage=HOMEPAGE)
+
+    # Check if repo exists, then create repo if it doesn't
+    unique_name = False
+    while unique_name == False:
+        try:
+            repo = organization.create_repo(name, homepage=HOMEPAGE)
+        except:
+            new_name = input("That name is taken, choose another: ")
+            rename_setup(name, new_name)
+            name = new_name
+        else:
+            unique_name = True
+
     # Add user as repo contributor
     # Not sure if admin priveleges are necessary
     repo.add_to_collaborators(github_username, permission='admin')
@@ -93,7 +104,7 @@ def local_export(setup, to_dir):
         export_dir = os.path.expanduser("~") + "/" + setup
     else:
         export_dir = to_dir
-        
+
     src_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
     if not os.path.isdir(src_dir):
         print("Setup \"" + setup + "\" does not exist")
