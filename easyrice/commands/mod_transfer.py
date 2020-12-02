@@ -47,9 +47,7 @@ def create_remote(name):
     # To get the real token, a caesar cipher is used
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
     ACCESS_TOKEN = decipher(encoded_token)
-    NEW_REPO_NAME = name
     HOMEPAGE = 'https://github.com/lukew3/easyrice'
-    ORGANISATION_NAME = 'easyrice-setups'
     g = Github(ACCESS_TOKEN)
     organization = g.get_organization("easyrice-setups")
 
