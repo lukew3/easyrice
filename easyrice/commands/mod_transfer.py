@@ -7,7 +7,6 @@ from github import Github
 import configparser
 from .mod_utils import replace, set_current_setup, expand_dir, rename_setup
 
-name = ""
 def upload(setup):
     create_remote(setup)
     input("Check your email and accept invitation to collaborate. Then press enter to continue")
