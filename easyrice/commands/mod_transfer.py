@@ -5,13 +5,12 @@ import requests
 import sys
 from github import Github
 import configparser
-from .mod_utils import replace, set_current_setup, expand_dir
-
+from .mod_utils import replace, set_current_setup, expand_dir, rename_setup, remove_setup, copy_setup
 
 def upload(setup):
-    create_remote(setup)
+    setup_name = create_remote(setup)
     input("Check your email and accept invitation to collaborate. Then press enter to continue")
-    git_upload(setup)
+    git_upload(setup_name)
 
 
 def decipher(ciphertext):
@@ -50,13 +49,26 @@ def create_remote(name):
     ORGANISATION_NAME = 'easyrice-setups'
     g = Github(ACCESS_TOKEN)
     organization = g.get_organization("easyrice-setups")
-    # Create repo
-    repo = organization.create_repo(name, homepage=HOMEPAGE)
+
+    # Check if repo exists, then create repo if it doesn't
+    unique_name = False
+    while unique_name == False:
+        try:
+            repo = organization.create_repo(name, homepage=HOMEPAGE)
+        except:
+            new_name = input("That name is taken, choose another: ")
+            rename_setup(name, new_name)
+            name = new_name
+        else:
+            unique_name = True
+
     # Add user as repo contributor
     # Not sure if admin priveleges are necessary
     repo.add_to_collaborators(github_username, permission='admin')
+    return name
 
 def git_upload(setup_name):
+    print(setup_name)
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
     username = "easyrice-community"
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
@@ -64,6 +76,7 @@ def git_upload(setup_name):
     # This script uploads on behalf of the owner of the machine, not easyrice-community
     script = [
         f'cd {path}',
+        'rm -rf .git',
         'git init',
         'git add .',
         'git commit -m "Easyrice upload"',
@@ -71,6 +84,7 @@ def git_upload(setup_name):
         'git branch -M main',
         'git push -u origin main'
     ]
+    print(script)
     output = '\n'.join(script)
     os.system(output)
 
@@ -93,7 +107,7 @@ def local_export(setup, to_dir):
         export_dir = os.path.expanduser("~") + "/" + setup
     else:
         export_dir = to_dir
-        
+
     src_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
     if not os.path.isdir(src_dir):
         print("Setup \"" + setup + "\" does not exist")

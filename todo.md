@@ -15,7 +15,6 @@
 - [ ] Fix inconsistencies
 - [ ] Add ability to add custom .desktop entries to desktop environment manager
  	- [ ] You can have a seperate entry for each setup you want to use on a regular basis
-- [ ] Decide if setups should have README's automatically generated when they upload to github
 - [ ] UPLOAD: If github repo already exists, don't attempt to create a new repo. Instead, just add and commit current changes
 - [ ] INSTALL: Users should be able to use the install command to install a dependency on the users pc, then move the .config into the setups dotfile location
 
@@ -54,3 +53,5 @@ if retval != 0:
 - [ ] Add a copy argument to copy a setup to a new setup with everything the same except for the setup name
 
 - [ ] Find out if `install_config` method is the best way to initialize .config files (I'm almost certain it's not)
+
+- [ ] Wallpaper doesn't work when setup renamed because reference in config isn't edited

@@ -52,42 +52,15 @@ def clone(repo):
 @click.argument('new_name')
 def rename(old_name, new_name):
     """ Rename an existing setup"""
-    if old_name == None:
-        old_name = input("Enter the setup you want to rename: ")
-    if new_name == None:
-        new_name = input("Enter the new name for the setup: ")
-    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
-    new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
-    os.rename(current_folder, new_folder)
-
-    # Replace name of setup in config run_wm_command
-    # This is incomplete because name needs to be changed in each config file as well
-    # probably could do some recursive search through files for \setups\<old_name>\
-    setup_config = new_folder + "/config"
-    pattern = '/setups/' + old_name + '/dotfiles'
-    subst = '/setups/' + new_name + '/dotfiles'
-    replace(setup_config, pattern, subst)
-    print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
-    if old_name == get_current_setup():
-        set_current_setup(new_name)
+    mod_utils.rename_setup(old_name, new_name)
 
 
 @cli.command()
 @click.argument('setup')
-def remove(setup):
+@click.option('-w', '--warning-off', is_flag=True)
+def remove(setup, warning_off):
     """ Delete an existing setup """
-    # Could print a list of setups numbered and then ask for a number or numbers to delete
-    setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
-    # Warns if setup is current setup
-    if get_current_setup() == setup:
-        choice = input("This is your active setup, are you sure you want to remove it? (y/n)")
-        if choice == 'n' or choice == 'N':
-            return 0
-    # Check that setup existss
-    if os.path.exists(setup_dir):
-        os.system('rm -rf ' + setup_dir)
-    else:
-        print("Setup \"" + setup + "\" doesn't exist")
+    mod_utils.remove_setup(setup, warning_off)
 
 
 @cli.command()
