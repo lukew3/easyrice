@@ -26,14 +26,14 @@ def new(requirements, name):
     """ Creates a new setup directory. Empty unless passed -c, which copies local setup """
     config_dir = os.path.expanduser("~") + "/.config"
     # TODO: create a generated name with the lorem package if the user doesn't want to include a name https://pypi.org/project/lorem/
-    if name == None:
+    if name is None:
         setupName = input("Give your setup a name: ")
     else:
         setupName = name
     while os.path.exists(config_dir + "/easyrice/setups/" + setupName):
         print("A setup with that name already exists")
         setupName = input("Give your setup a different name: ")
-    if requirements != None:
+    if requirements is not None:
         requirements_file = os.getcwd() + "/" + requirements
     else:
         requirements_file = ''

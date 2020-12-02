@@ -4,12 +4,16 @@ from tempfile import mkstemp
 import configparser
 from .mod_req import setup_requirements
 
+
 def remove_setup(setup_name, warning_off):
     # Could print a list of setups numbered and then ask for a number or numbers to delete
-    setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
+    setup_dir = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + setup_name
     # Warns if setup is current setup
     if (get_current_setup() == setup_name) and warning_off == False:
-        choice = input("This is your active setup, are you sure you want to remove it? (y/n)")
+        choice = input(
+            "This is your active setup, are you sure you want to remove it? (y/n)"
+        )
         if choice == 'n' or choice == 'N':
             return 0
     # Check that setup existss
@@ -18,10 +22,13 @@ def remove_setup(setup_name, warning_off):
     else:
         print("Setup \"" + setup_name + "\" doesn't exist")
 
+
 def copy_setup(old_name, new_name):
-    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
+    current_folder = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + old_name
     current_placeholder = current_folder + "(1)"
-    new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
+    new_folder = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + new_name
 
     # Add (1) to the end of current_folder to differentiate
     os.rename(current_folder, current_placeholder)
@@ -31,13 +38,16 @@ def copy_setup(old_name, new_name):
     rename_setup(old_name, new_name)
     os.rename(current_placeholder, current_folder)
 
+
 def rename_setup(old_name, new_name):
     if old_name == None:
         old_name = input("Enter the setup you want to rename: ")
     if new_name == None:
         new_name = input("Enter the new name for the setup: ")
-    current_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + old_name
-    new_folder = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name
+    current_folder = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + old_name
+    new_folder = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + new_name
     os.rename(current_folder, new_folder)
 
     # Replace name of setup in config run_wm_command
@@ -47,7 +57,8 @@ def rename_setup(old_name, new_name):
     pattern = '/easyrice/setups/' + old_name
     subst = 'easyrice/setups/' + new_name
     replace(setup_config, pattern, subst)
-    readme_location = os.path.expanduser("~") + "/.config/easyrice/setups/" + new_name + "/README.md"
+    readme_location = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + new_name + "/README.md"
     replace(readme_location, old_name, new_name)
     print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
     if old_name == get_current_setup():
@@ -82,8 +93,9 @@ def localize_dotfiles(setup_name):
         os.makedirs(revert_path)
     folders = os.listdir(setup_dotfiles)
     for folder in folders:
-        shutil.copytree(local_dotfiles + '/' + folder, revert_path +
-                        '/' + folder, dirs_exist_ok=True)
+        shutil.copytree(local_dotfiles + '/' + folder,
+                        revert_path + '/' + folder,
+                        dirs_exist_ok=True)
 
 
 def revert():

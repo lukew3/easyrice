@@ -9,9 +9,7 @@ setup(
     author_email='lukew25073@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=[
-        'click', 'distro', 'lorem', 'pygithub'
-    ],
+    install_requires=['click', 'distro', 'lorem', 'pygithub'],
     include_package_data=True,
     entry_points={
         'console_scripts': [

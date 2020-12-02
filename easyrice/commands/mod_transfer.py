@@ -7,9 +7,12 @@ from github import Github
 import configparser
 from .mod_utils import replace, set_current_setup, expand_dir, rename_setup, remove_setup, copy_setup
 
+
 def upload(setup):
     setup_name = create_remote(setup)
-    input("Check your email and accept invitation to collaborate. Then press enter to continue")
+    input(
+        "Check your email and accept invitation to collaborate. Then press enter to continue"
+    )
     git_upload(setup_name)
 
 
@@ -67,6 +70,7 @@ def create_remote(name):
     repo.add_to_collaborators(github_username, permission='admin')
     return name
 
+
 def git_upload(setup_name):
     print(setup_name)
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name
@@ -75,14 +79,10 @@ def git_upload(setup_name):
     password = decipher(encoded_token)
     # This script uploads on behalf of the owner of the machine, not easyrice-community
     script = [
-        f'cd {path}',
-        'rm -rf .git',
-        'git init',
-        'git add .',
+        f'cd {path}', 'rm -rf .git', 'git init', 'git add .',
         'git commit -m "Easyrice upload"',
         f'git remote add origin https://github.com/easyrice-setups/{setup_name}.git',
-        'git branch -M main',
-        'git push -u origin main'
+        'git branch -M main', 'git push -u origin main'
     ]
     print(script)
     output = '\n'.join(script)

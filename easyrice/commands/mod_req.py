@@ -18,7 +18,7 @@ def setup_requirements():
     requirements_file = setup_dir + "/requirements.txt"
     f = open(requirements_file, 'r')
     requirements = f.readlines()
-    for i in range(0, len(requirements)-1):
+    for i in range(0, len(requirements) - 1):
         requirements[i] = requirements[i].strip()
     # Removes extra newline character in last line of requirements
     if requirements[-1][-1:] == "\n":
@@ -59,9 +59,7 @@ def get_install_command(req, distro_name):
         # Unfortunately, there isn't one universal way to install
         # The variables in here aren't valid yet, they are just pseudocode
         script_list = [
-            'git clone ' + git_url,
-            'cd ' + package,
-            'sudo make install'
+            'git clone ' + git_url, 'cd ' + package, 'sudo make install'
         ]
         script = '\n'.join(script)
     return script

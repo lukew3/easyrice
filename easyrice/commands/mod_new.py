@@ -16,8 +16,12 @@ def make_setup(setup_name, requirements_file=''):
     if requirements_file == '':
         req = 'not empty'
         f = open(setup_dir + "/requirements.txt", 'a')
-        print("Please add each requirement one at a time. Start with the window manager and then other packages necessary for your setup.")
-        print("Once you have added all necessary requirements, press enter without typing any input")
+        print(
+            "Please add each requirement one at a time. Start with the window manager and then other packages necessary for your setup."
+        )
+        print(
+            "Once you have added all necessary requirements, press enter without typing any input"
+        )
         while req != '':
             req = input("> ")
             # TODO: ideally, req should be checked to see if it is a valid package
@@ -30,7 +34,8 @@ def make_setup(setup_name, requirements_file=''):
         shutil.copyfile(requirements_file, setup_requirements_file)
 
     # Transfer all .config files of required packages to setup dotfiles folder
-    requirements = open(setup_dir + "/requirements.txt", 'r').read().splitlines()
+    requirements = open(setup_dir + "/requirements.txt",
+                        'r').read().splitlines()
     for req in requirements:
         # If folder exists in .config, copy that folder to setup's dotfile
         local_req_config_dir = os.path.expanduser("~") + "/.config/" + req
@@ -53,8 +58,7 @@ def make_setup(setup_name, requirements_file=''):
 
     config = configparser.ConfigParser()
     # Not sure if run_wm_command should be removed or not
-    config['DEFAULT'] = {'window_manager': wm,
-                         'run_wm_command': wm}
+    config['DEFAULT'] = {'window_manager': wm, 'run_wm_command': wm}
     with open(setup_dir + "/config", 'w') as configfile:
         config.write(configfile)
     print("Base directory created")
@@ -66,7 +70,8 @@ def make_setup(setup_name, requirements_file=''):
     if os.path.exists(wm_config_file):
         get_wallpaper(wm_config_file, setup_name)
     # Create README
-    readme_location = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name + "/README.md"
+    readme_location = os.path.expanduser(
+        "~") + "/.config/easyrice/setups/" + setup_name + "/README.md"
     f = open(readme_location, 'a')
     f.write("# " + setup_name + "\n")
     f.close()
@@ -82,7 +87,9 @@ def get_wallpaper(wm_config_file, setup_name):
         if 'feh' in line:
             wallpaper_head = line.rsplit(None, 1)[-1]
             wallpaper_name = wallpaper_head.rsplit('/', 1)[1]
-            wallpaper_base = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name + "/assets/" + wallpaper_name
+            wallpaper_base = os.path.expanduser(
+                "~"
+            ) + "/.config/easyrice/setups/" + setup_name + "/assets/" + wallpaper_name
             # Changes reference in wm config to new wallpaper location in assets folder
             replace(wm_config_file, wallpaper_head, wallpaper_base)
             break
