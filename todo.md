@@ -1,4 +1,4 @@
-# Todo
+# Todo 
 
 ## Must Add:
 - [ ] Fix bad documentation
@@ -24,7 +24,7 @@
     - [ ] Show a numbered list of requirements that are installed on your computer and are common in ricing setups. Then type a list with numbers seperated by a space to save to  requirements
       - [ ] The following script should return a list of all manually installed packages
  			  - [ ] comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-        
+
 - [ ] It would be nice if on startup, config files should be replaced with setup config files.
   - [ ] Config files should be replaced on close, but this is easier said than done
   - [ ] You also have to take into consideration installing the requirements
