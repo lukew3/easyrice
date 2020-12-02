@@ -87,8 +87,13 @@ def git_clone(repo):
     # Or you could make a way to automatically upload a setup to github
 
 
-def local_export(setup):
-    export_dir = os.path.expanduser("~") + "/" + setup
+def local_export(setup, to_dir):
+    export_dir = ""
+    if to_dir == None:
+        export_dir = os.path.expanduser("~") + "/" + setup
+    else:
+        export_dir = to_dir
+        
     src_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
     if not os.path.isdir(src_dir):
         print("Setup \"" + setup + "\" does not exist")

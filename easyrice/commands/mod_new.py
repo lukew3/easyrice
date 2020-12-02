@@ -4,7 +4,7 @@ import configparser
 from .mod_utils import replace, set_current_setup
 
 
-def make_base(setup_name, requirements_file=''):
+def make_setup(setup_name, requirements_file=''):
     # Write base directory
     parent_dir = os.path.expanduser("~") + "/.config/easyrice/setups"
     setup_dir = parent_dir + "/" + setup_name

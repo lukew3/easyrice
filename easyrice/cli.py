@@ -37,7 +37,7 @@ def new(requirements, name):
         requirements_file = os.getcwd() + "/" + requirements
     else:
         requirements_file = ''
-    mod_new.make_base(setupName, requirements_file)
+    mod_new.make_setup(setupName, requirements_file)
 
 
 @cli.command()
@@ -78,12 +78,18 @@ def remove(setup):
     """ Delete an existing setup """
     # Could print a list of setups numbered and then ask for a number or numbers to delete
     setup_dir = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup
-    os.system('rm -rf ' + setup_dir)
-    # Could add a message that tells if the setup doesn't exist and can't be removed
+    # Warns if setup is current setup
+    if get_current_setup() == setup:
+        choice = input("This is your active setup, are you sure you want to remove it? (y/n)")
+        if choice == 'n' or choice == 'N':
+            return 0
+    # Check that setup existss
+    if os.path.exists(setup_dir):
+        os.system('rm -rf ' + setup_dir)
+    else:
+        print("Setup \"" + setup + "\" doesn't exist")
 
 
-# This method of upload was deprecated by github.
-# This can still work if you add tokens
 @cli.command()
 @click.argument('setup')
 def upload(setup):
@@ -94,7 +100,6 @@ def upload(setup):
 @cli.command()
 def list():
     """ Lists all setups in easyrice config """
-    # Maybe you could include the window manager used in each setup
     # Even better you could add an option that allows the user to see all installed packages or config folder names
     setups_dir = os.path.expanduser("~") + "/.config/easyrice/setups/"
     setups_list = os.listdir(setups_dir)
@@ -121,10 +126,11 @@ def revert():
 
 @cli.command()
 @click.argument('setup')
-def export(setup):
+@click.option('-t', '--to-dir', required=False)
+def export(setup, to_dir):
     """ Export given setup to home directory """
     # Could add option to change output location
-    mod_transfer.local_export(setup)
+    mod_transfer.local_export(setup, to_dir)
 
 
 @cli.command()
@@ -141,7 +147,5 @@ def install_config():
     user_setups_dir = user_config_dir + "/setups"
 
     if not os.path.isfile(user_config):
-        # The make config dir is unecessary but I'm not sure if it's best practice to keep it or not
-        os.makedirs(user_config_dir, exist_ok=True)
         os.makedirs(user_setups_dir, exist_ok=True)
         shutil.copyfile("easyrice/config", user_config)

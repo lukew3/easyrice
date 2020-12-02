@@ -24,18 +24,10 @@
     - [ ] Show a numbered list of requirements that are installed on your computer and are common in ricing setups. Then type a list with numbers seperated by a space to save to  requirements
       - [ ] The following script should return a list of all manually installed packages
  			  - [ ] comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-
-- [ ] It is probably important to be able to test your setup without regarding your previously installed packages.
-  - [ ] This can be achieved by creating a seperate user profile with no installed packages and then deleting that profile after testing
-
-- [ ] Might need a dependency requirement file that is only edited by the computer
-   - [ ] Holds the names of the packages that need to be installed in order for requirements to be installed
-
-- [ ] REMOVE: If the current active setup is about to be removed, inform the user and ask if they want to continue(y/n)
-  - [ ] Tell them how to set new active setup
-
-- [ ] On startup, config files should be replaced with setup config files.
+        
+- [ ] It would be nice if on startup, config files should be replaced with setup config files.
   - [ ] Config files should be replaced on close, but this is easier said than done
+  - [ ] You also have to take into consideration installing the requirements
 
 - [ ] It seems that i3-gaps just removes i3
   - [ ] Make sure this is the case and then remove i3 from requirements
@@ -53,16 +45,12 @@ retval = subprocess.call(["which", "packagename"])
 if retval != 0:
     print("Packagename not installed!")
 ```
-- [ ] Fix weird naming and deprecated function in mod_new
-- [ ] When creating the wm run command make sure that the wm is correctly identified in the list of requirements. Currently it is identified by being the first requirement in the list. Possibly have a list of possible wms and if an item is on requirements list and wm list, that is the wm. If no common package is found, just use the first item in the list.
-
-- [ ] Test if upload works for users outside of organization owners
-
-- [ ] Remove newline character from last item of requirements_list in NEW
 
 - [ ] Maybe localize wallpaper after configs are transferred?
   - [ ] This would fix broken references to wallpapers when setups are deleted
 
-- [ ] Add simple cookiecutter readme to repos uploaded to github
-
 - [ ] UPLOAD: If user doesn't accept request before clicking enter, upload it on behalf of easyrice-community
+
+- [ ] Add a copy argument to copy a setup to a new setup with everything the same except for the setup name
+
+- [ ] Find out if `install_config` method is the best way to initialize .config files (I'm almost certain it's not)
