@@ -3,13 +3,10 @@
 ## Must Add:
 - [ ] Fix bad documentation
 - [ ] CLONE: check for double folder when pulled
-- [ ] UPLOAD: get it to work
-  - [ ] Instead of uploading to github, you could just upload to a custom made github organization that hosts setups.
-	  - [ ] This would actually be really good because setups will be prevented from having the same name
-		- [ ] And I could maintain consistency
-		- [ ] There should be a way that the creator can havve modifier priveleges, or push updates
-			- [ ] It might not be a huge problem if they don't though, I could just add them as a PR.
-				- [ ] Could add trusted individuals to the organization
+- [ ] UPLOAD: Test upload with user outside of the easyrice-setups organization
+  - [ ] Could do this myself with an alternate account
+- [ ] CLI: Make sure that cli follows standards and works similarly to other clis
+  - [ ] Could head over to reddit r/commandline to see if they can help me out before release
 
 
 ## Should Add
@@ -65,4 +62,7 @@ if retval != 0:
 
 - [ ] Maybe localize wallpaper after configs are transferred?
   - [ ] This would fix broken references to wallpapers when setups are deleted
-  
+
+- [ ] Add simple cookiecutter readme to repos uploaded to github
+
+- [ ] UPLOAD: If user doesn't accept request before clicking enter, upload it on behalf of easyrice-community

@@ -4,11 +4,13 @@ import subprocess
 import requests
 import sys
 from github import Github
+import configparser
 from .mod_utils import replace, set_current_setup, expand_dir
 
 
 def upload(setup):
     create_remote(setup)
+    input("Check your email and accept invitation to collaborate. Then press enter to continue")
     git_upload(setup)
 
 
@@ -28,7 +30,17 @@ def decipher(ciphertext):
 
 
 def create_remote(name):
-    collaborator_username = input("What is your Github username: ")
+    easyrice_config_path = os.path.expanduser("~") + "/.config/easyrice/config"
+    config = configparser.ConfigParser()
+    config.read(easyrice_config_path)
+    # Get github username and save it if not saved before
+    if config['main']['github_username'] == "":
+        github_username = input("What is your Github username: ")
+        config['main']['github_username'] = github_username
+        with open(easyrice_config_path, 'w') as configfile:
+            config.write(configfile)
+    else:
+        github_username = config['main']['github_username']
     # The access token is encoded so that github doesn't delete the token when it is published
     # To get the real token, a caesar cipher is used
     encoded_token = "1ff4994hfgi1i244905if1905181i383i71g4e8h"
@@ -42,8 +54,7 @@ def create_remote(name):
     repo = organization.create_repo(name, homepage=HOMEPAGE)
     # Add user as repo contributor
     # Not sure if admin priveleges are necessary
-    repo.add_to_collaborators(collaborator_username, permission='admin')
-
+    repo.add_to_collaborators(github_username, permission='admin')
 
 def git_upload(setup_name):
     path = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name

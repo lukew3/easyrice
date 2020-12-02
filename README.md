@@ -17,7 +17,7 @@ Use `easyrice copy-current` to copy your current setup and save it as a easyrice
 easyrice
 ├── config
 └── setups
-    └── first
+    └── mysetup
         ├── dotfiles
         │   └── i3
         │       └── config

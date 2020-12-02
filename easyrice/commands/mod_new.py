@@ -57,6 +57,12 @@ def make_base(setup_name, requirements_file=''):
     wm_config_file = setup_dir + "/dotfiles/" + wm + "/config"
     if os.path.exists(wm_config_file):
         get_wallpaper(wm_config_file, setup_name)
+    # Create README
+    readme_location = os.path.expanduser("~") + "/.config/easyrice/setups/" + setup_name + "/README.md"
+    f = open(readme_location, 'a')
+    f.write("# " + setup_name + "\n")
+    f.close()
+    print("README.md created")
     print("New setup created successfully")
 
 
