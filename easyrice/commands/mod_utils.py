@@ -58,7 +58,6 @@ def rename_setup(old_name, new_name):
     readme_location = os.path.expanduser(
         "~") + "/.config/easyrice/setups/" + new_name + "/README.md"
     replace(readme_location, old_name, new_name)
-    print("Setup \'" + old_name + "\' renamed to \'" + new_name + "\'")
     if old_name == get_current_setup():
         set_current_setup(new_name)
 

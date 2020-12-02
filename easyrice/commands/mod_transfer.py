@@ -9,6 +9,10 @@ from .mod_utils import replace, set_current_setup, expand_dir, rename_setup, rem
 
 
 def upload(setup):
+    # Check that setup exists
+    if not os.path.isdir(os.path.expanduser("~") + "/.config/easyrice/setups/" + setup):
+        print("Setup \"" + setup + "\" doesn't exist!")
+        return 0
     setup_name = create_remote(setup)
     input(
         "Check your email and accept invitation to collaborate. Then press enter to continue"

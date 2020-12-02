@@ -113,6 +113,14 @@ def add(setup_dir):
     mod_transfer.local_import(setup_dir)
 
 
+@cli.command()
+@click.argument('from_setup')
+@click.argument('to_setup')
+def copy(from_setup, to_setup):
+    """ Copies passed setup into second passed setup name """
+    mod_utils.copy_setup(from_setup, to_setup)
+
+
 def install_config():
     """ Make base directory and configs for install """
     user_config_dir = os.path.expanduser("~") + "/.config/easyrice"

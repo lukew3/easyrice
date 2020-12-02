@@ -65,7 +65,10 @@ def get_install_from_source_script(req, distro_name):
     # The variables in here aren't valid yet, they are just pseudocode
     git_url = "github.com/" + req + "/" + req
     script_list = [
-        'git clone ' + git_url, 'cd ' + req, 'sudo make install', 'cd ..', 'rm -rf ' + req,
+        'git clone ' + git_url,
+        'cd ' + req, 'sudo make install',
+        'cd ..',
+        'rm -rf ' + req
     ]
     script = '\n'.join(script_list)
     return script
