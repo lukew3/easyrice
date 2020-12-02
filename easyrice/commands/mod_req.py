@@ -58,13 +58,14 @@ def get_install_command(req, distro_name):
         script = get_install_from_source_script(req, distro_name)
     return script
 
+
 def get_install_from_source_script(req, distro_name):
     # There needs to be some way to tell the system how to retrieve the package.
     # Unfortunately, there isn't one universal way to install
     # The variables in here aren't valid yet, they are just pseudocode
     git_url = "github.com/" + req + "/" + req
     script_list = [
-        'git clone ' + git_url, 'cd ' + req, 'sudo make install'
+        'git clone ' + git_url, 'cd ' + req, 'sudo make install', 'cd ..', 'rm -rf ' + req,
     ]
     script = '\n'.join(script_list)
     return script
