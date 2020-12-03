@@ -62,3 +62,6 @@ if retval != 0:
  	- [ ] You can have a seperate entry for each setup you want to use on a regular basis
 
 ## Unsorted random ideas
+
+- [ ] Maybe I could make a python package that can install from source for different projects
+  - [ ] Pretty much just the mod_pkg_install thing but usable and installable outside of easyrice
