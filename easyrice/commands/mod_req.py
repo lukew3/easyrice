@@ -3,6 +3,7 @@ import os
 import platform
 import distro
 import configparser
+import subprocess
 
 
 def get_current_setup():
@@ -31,6 +32,13 @@ def setup_requirements():
 
 def install_requirements(requirements):
     distro_name = distro.linux_distribution(full_distribution_name=False)[0]
+    # Attempt at listing requirements
+    """
+    list_req_cmd = "comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
+    installed = subprocess.check_output(list_req_cmd, shell=True, text=True)
+    print(installed)
+    """
+    # Install each requirement in the list
     for req in requirements:
         print("-------------------------")
         print("Installing " + req + "...")
