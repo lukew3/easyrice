@@ -1,6 +1,11 @@
 # easyrice
 A tool for sharing unix configurations, also known as ricing. Adds the ability to use different settings for the same window manager. Also allows for setups to be easily shared.
 
+### Project Goals
+Share and install setups through github
+Easily switch between multiple setups
+Install dependencies from shared setup automatically
+
 ## Install
 Right now, this can only be installed from source. To do this, you can run the following commands:
 ```
