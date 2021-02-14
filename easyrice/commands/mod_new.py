@@ -63,12 +63,13 @@ def make_setup(setup_name, requirements_file=''):
         config.write(configfile)
     print("Base directory created")
     set_current_setup(setup_name)
+    
     # Get name of wm config file and move wallpaper to setup assets
     wm_config_folder = setup_dir + "/dotfiles/" + wm
     # The listdir[0] way of doing this might not work in wm's with lots of config files, but it works for the top 3 at least
     wm_config_file = wm_config_folder + '/' + os.listdir(wm_config_folder)[0]
     if os.path.exists(wm_config_file):
-        get_wallpaper(wm_config_file, setup_name)
+        get_feh_wallpaper(wm_config_file, setup_name)
     # Create README
     readme_location = os.path.expanduser(
         "~") + "/.config/easyrice/setups/" + setup_name + "/README.md"
@@ -79,7 +80,7 @@ def make_setup(setup_name, requirements_file=''):
     print("New setup created successfully")
 
 
-def get_wallpaper(wm_config_file, setup_name):
+def get_feh_wallpaper(wm_config_file, setup_name):
     wallpaper_head = ''
     wallpaper_base = ''
     f = open(wm_config_file, "r")

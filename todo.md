@@ -16,6 +16,10 @@
 - [ ] Fix annoying requirements installation when it's not always necessary
   - [ ] Could check installed packages from shell and then try to install if not found
 
+- [ ] Try to make a setup from someone on the internet's dotfiles
+
+- [ ] Add capability to store dotfiles outside of .config
+
 ## Priority 2: Needs to be done before regular release
 
 - [ ] UPLOAD: If user doesn't accept request before clicking enter, upload it on behalf of easyrice-community
@@ -50,11 +54,6 @@ if retval != 0:
     - [ ] Show a numbered list of requirements that areinstalled on your computer and are common in ricingsetups. Then type a list with numbers seperated by aspace to save to  requirements
       - [ ] The following script should return a list of all manually installed packages
  			  - [ ] `comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)`
-
-- [ ] INSTALL: Users should be able to use the install command to install a dependency on the users pc, then move the .config into the setups dotfile location
-  - [ ] Not sure if I like this one anymore
-
-- [ ] Clean up comments, put them in todo list
 
 - [ ] Fix inconsistencies
 
